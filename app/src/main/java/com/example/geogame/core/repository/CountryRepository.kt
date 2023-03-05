@@ -1,7 +1,7 @@
-package com.example.countrygame.core.repository
+package com.example.geogame.core.repository
 
-import com.example.countrygame.core.data.dao.CountriesDao
-import com.example.countrygame.core.data.model.Country
+import com.example.geogame.core.data.dao.CountriesDao
+import com.example.geogame.core.data.model.Country
 
 class CountryRepository(private val countriesDao: CountriesDao) {
 

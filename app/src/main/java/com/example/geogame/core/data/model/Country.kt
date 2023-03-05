@@ -1,4 +1,4 @@
-package com.example.countrygame.core.data.model
+package com.example.geogame.core.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

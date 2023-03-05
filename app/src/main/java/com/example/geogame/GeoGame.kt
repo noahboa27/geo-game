@@ -1,4 +1,4 @@
-package com.example.countrygame
+package com.example.geogame
 
 import android.app.Application
 

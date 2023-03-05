@@ -1,4 +1,4 @@
-package com.example.countrygame.ui.theme
+package com.example.geogame.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

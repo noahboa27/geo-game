@@ -1,9 +1,9 @@
-package com.example.countrygame.core.database
+package com.example.geogame.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.countrygame.core.data.dao.CountriesDao
-import com.example.countrygame.core.data.model.Country
+import com.example.geogame.core.data.dao.CountriesDao
+import com.example.geogame.core.data.model.Country
 
 @Database(
     entities = [Country::class],
