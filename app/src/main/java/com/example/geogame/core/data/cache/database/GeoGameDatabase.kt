@@ -11,17 +11,17 @@ import com.example.geogame.core.data.cache.model.Country
     entities = [Country::class],
     version = 1
 )
-abstract class AppDatabase : RoomDatabase() {
+abstract class GeoGameDatabase : RoomDatabase() {
     abstract fun countryDao(): CountriesDao
 
     companion object {
-        private var instance: AppDatabase? = null
+        private var instance: GeoGameDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase =
+        fun getInstance(context: Context): GeoGameDatabase =
             instance ?: synchronized(this) {
                 instance ?: Room.databaseBuilder(
                     context.applicationContext,
-                    AppDatabase::class.java,
+                    GeoGameDatabase::class.java,
                     "app_database"
                 ).build().also {
                     instance = it
