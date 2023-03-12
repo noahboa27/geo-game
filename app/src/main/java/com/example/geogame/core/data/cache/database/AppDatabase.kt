@@ -1,11 +1,11 @@
-package com.example.geogame.core.database
+package com.example.geogame.core.data.cache.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.geogame.core.data.dao.CountriesDao
-import com.example.geogame.core.data.model.Country
+import com.example.geogame.core.data.cache.dao.CountriesDao
+import com.example.geogame.core.data.cache.model.Country
 
 @Database(
     entities = [Country::class],

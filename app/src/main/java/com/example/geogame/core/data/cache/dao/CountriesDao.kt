@@ -1,10 +1,10 @@
-package com.example.geogame.core.data.dao
+package com.example.geogame.core.data.cache.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.geogame.core.data.model.Country
+import com.example.geogame.core.data.cache.model.Country
 
 @Dao
 interface CountriesDao {
