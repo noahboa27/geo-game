@@ -8,6 +8,10 @@ class CountryRepositoryImpl(
     private val countriesDao: CountriesDao
 ): CountryRepository {
 
+    override suspend fun insertAllCountries(vararg countries: LocalCountry) {
+        countriesDao.insertAll(*countries)
+    }
+
     override suspend fun getCountryBy(name: String): LocalCountry =
         countriesDao.getCountryBy(name)
 
