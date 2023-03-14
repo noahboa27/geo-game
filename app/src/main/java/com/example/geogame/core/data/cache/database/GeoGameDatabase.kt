@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.geogame.core.data.cache.dao.CountriesDao
-import com.example.geogame.core.data.cache.model.Country
+import com.example.geogame.core.data.cache.model.LocalCountry
 
 @Database(
-    entities = [Country::class],
+    entities = [LocalCountry::class],
     version = 1
 )
 abstract class GeoGameDatabase : RoomDatabase() {

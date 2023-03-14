@@ -1,6 +1,6 @@
 package com.example.geogame
 
-import com.example.geogame.core.di.coreModule
+import com.example.geogame.core.data.di.dataModule
 import org.junit.Test
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.test.KoinTest
@@ -11,6 +11,6 @@ class CheckModulesTest : KoinTest {
 
     @Test
     fun checkAllModules() {
-        coreModule.verify()
+        dataModule.verify()
     }
 }
