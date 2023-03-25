@@ -2,6 +2,8 @@ package com.example.geogame.flag_game.domain.usecases
 
 import com.example.geogame.core.data.repository.CountryRepository
 import com.example.geogame.core.domain.model.Country
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class GetRandomCountries(
     private val countryRepository: CountryRepository
@@ -9,7 +11,9 @@ class GetRandomCountries(
     suspend operator fun invoke(
         numOfCountries: Int
     ): List<Country> =
-        countryRepository.getRandomCountries(numOfCountries).map {
-            it.toDomain()
+        withContext(Dispatchers.IO) {
+            countryRepository.getRandomCountries(numOfCountries).map {
+                it.toDomain()
+            }
         }
 }
