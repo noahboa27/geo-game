@@ -14,12 +14,12 @@ val retrofitModule = module {
     single { provideRetrofit(get()) }
 }
 
-fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-    Retrofit.Builder().baseUrl("https://restcountries.com/v3.1/").client(okHttpClient)
-        .addConverterFactory(MoshiConverterFactory.create()).build()
-
 fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
     OkHttpClient().newBuilder().addInterceptor(loggingInterceptor).build()
 
 fun provideRestCountriesApi(retrofit: Retrofit): RestCountriesApi =
     retrofit.create(RestCountriesApi::class.java)
+
+fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
+    Retrofit.Builder().baseUrl("https://restcountries.com/v3.1/").client(okHttpClient)
+        .addConverterFactory(MoshiConverterFactory.create()).build()
