@@ -16,6 +16,7 @@ import com.example.geogame.R
 fun FlagGameContent() {
     Column {
         Button(
+            modifier = Modifier.align(Alignment.End),
             onClick = { /*TODO*/ }
         ) {
             Text(text = "Quit")
@@ -31,7 +32,9 @@ fun FlagGameContent() {
         Spacer(modifier = Modifier.height(10.dp))
 
         Box(
-            modifier = Modifier.fillMaxSize(0.8f),
+            modifier = Modifier
+                .fillMaxHeight(0.18f)
+                .fillMaxWidth(0.5f),
             contentAlignment = Alignment.Center
         ) {
             Button(
@@ -62,6 +65,8 @@ fun FlagGameContent() {
                 Text(text = "Option 4")
             }
         }
+
+        Spacer(modifier = Modifier.height(10.dp))
     }
 }
 
