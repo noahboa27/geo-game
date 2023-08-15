@@ -1,0 +1,83 @@
+package com.example.geogame.core.data.mapper
+
+import com.example.geogame.core.data.cache.model.LocalCountry
+import com.example.geogame.core.data.network.model.ApiCountry
+import com.example.geogame.core.domain.model.Country
+
+object CountryMapper {
+    fun toLocal(apiCountryModel: ApiCountry) = LocalCountry(
+        altSpellings = apiCountryModel.altSpellings,
+        area = apiCountryModel.area,
+        borders = apiCountryModel.borders,
+        capital = apiCountryModel.capital,
+        capitalInfo = apiCountryModel.capitalInfo,
+        car = apiCountryModel.car,
+        cca2 = apiCountryModel.cca2,
+        cca3 = apiCountryModel.cca3,
+        ccn3 = apiCountryModel.ccn3,
+        cioc = apiCountryModel.cioc,
+        coatOfArms = apiCountryModel.coatOfArms,
+        continents = apiCountryModel.continents,
+        currencies = apiCountryModel.currencies,
+        demonyms = apiCountryModel.demonyms,
+        fifa = apiCountryModel.fifa,
+        flag = apiCountryModel.flag,
+        flags = apiCountryModel.flags,
+        gini = apiCountryModel.gini,
+        idd = apiCountryModel.idd,
+        independent = apiCountryModel.independent,
+        landlocked = apiCountryModel.landlocked,
+        languages = apiCountryModel.languages,
+        latlng = apiCountryModel.latlng,
+        maps = apiCountryModel.maps,
+        name = apiCountryModel.name,
+        population = apiCountryModel.population,
+        postalCode = apiCountryModel.postalCode,
+        region = apiCountryModel.region,
+        startOfWeek = apiCountryModel.startOfWeek,
+        status = apiCountryModel.status,
+        subregion = apiCountryModel.subregion,
+        timezones = apiCountryModel.timezones,
+        tld = apiCountryModel.tld,
+        translations = apiCountryModel.translations,
+        unMember = apiCountryModel.unMember
+    )
+
+    fun toDomain(localCountry: LocalCountry) = Country(
+        altSpellings = localCountry.altSpellings,
+        area = localCountry.area,
+        borders = localCountry.borders,
+        capital = localCountry.capital,
+        capitalInfo = localCountry.capitalInfo,
+        car = localCountry.car,
+        cca2 = localCountry.cca2,
+        cca3 = localCountry.cca3,
+        ccn3 = localCountry.ccn3,
+        cioc = localCountry.cioc,
+        coatOfArms = localCountry.coatOfArms,
+        continents = localCountry.continents,
+        currencies = localCountry.currencies,
+        demonyms = localCountry.demonyms,
+        fifa = localCountry.fifa,
+        flag = localCountry.flag,
+        flags = localCountry.flags,
+        gini = localCountry.gini,
+        idd = localCountry.idd,
+        independent = localCountry.independent,
+        landlocked = localCountry.landlocked,
+        languages = localCountry.languages,
+        latlng = localCountry.latlng,
+        maps = localCountry.maps,
+        name = localCountry.name,
+        population = localCountry.population,
+        postalCode = localCountry.postalCode,
+        region = localCountry.region,
+        startOfWeek = localCountry.startOfWeek,
+        status = localCountry.status,
+        subregion = localCountry.subregion,
+        timezones = localCountry.timezones,
+        tld = localCountry.tld,
+        translations = localCountry.translations,
+        unMember = localCountry.unMember
+    )
+}

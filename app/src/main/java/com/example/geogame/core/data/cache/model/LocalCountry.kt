@@ -42,42 +42,4 @@ data class LocalCountry(
     val tld: List<String>,
     val translations: Translations,
     val unMember: Boolean
-) {
-    fun toDomain() = Country(
-        altSpellings = altSpellings,
-        area = area,
-        borders = borders,
-        capital = capital,
-        capitalInfo = capitalInfo,
-        car = car,
-        cca2 = cca2,
-        cca3 = cca3,
-        ccn3 = ccn3,
-        cioc = cioc,
-        coatOfArms = coatOfArms,
-        continents = continents,
-        currencies = currencies,
-        demonyms = demonyms,
-        fifa = fifa,
-        flag = flag,
-        flags = flags,
-        gini = gini,
-        idd = idd,
-        independent = independent,
-        landlocked = landlocked,
-        languages = languages,
-        latlng = latlng,
-        maps = maps,
-        name = name,
-        population = population,
-        postalCode = postalCode,
-        region = region,
-        startOfWeek = startOfWeek,
-        status = status,
-        subregion = subregion,
-        timezones = timezones,
-        tld = tld,
-        translations = translations,
-        unMember = unMember
-    )
-}
+)
