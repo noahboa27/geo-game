@@ -1,4 +1,4 @@
-package com.example.geogame.core.data.repository
+package com.example.geogame.core.domain.repo
 
 import com.example.geogame.core.data.cache.model.LocalCountry
 

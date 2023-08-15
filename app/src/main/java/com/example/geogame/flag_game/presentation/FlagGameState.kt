@@ -6,6 +6,7 @@ sealed class FlagGameState {
     object Initial : FlagGameState()
     object IsLoading : FlagGameState()
     data class Question(val countries: List<Country>, val correctCountry: Country) : FlagGameState()
+    object NextQuestion : FlagGameState()
     object AnswerCorrect : FlagGameState()
     object AnswerIncorrect : FlagGameState()
     object GameOverResults : FlagGameState()

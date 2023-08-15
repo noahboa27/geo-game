@@ -1,8 +1,8 @@
-package com.example.geogame.core.data.repository.impl
+package com.example.geogame.core.data.repository
 
 import com.example.geogame.core.data.cache.dao.CountriesDao
 import com.example.geogame.core.data.cache.model.LocalCountry
-import com.example.geogame.core.data.repository.CountryRepository
+import com.example.geogame.core.domain.repo.CountryRepository
 
 class CountryRepositoryImpl(
     private val countriesDao: CountriesDao

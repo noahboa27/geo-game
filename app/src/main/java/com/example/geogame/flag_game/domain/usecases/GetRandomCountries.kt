@@ -1,6 +1,6 @@
 package com.example.geogame.flag_game.domain.usecases
 
-import com.example.geogame.core.data.repository.CountryRepository
+import com.example.geogame.core.domain.repo.CountryRepository
 import com.example.geogame.core.domain.model.Country
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
