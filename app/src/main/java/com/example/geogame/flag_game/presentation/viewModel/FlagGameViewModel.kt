@@ -1,22 +1,34 @@
 package com.example.geogame.flag_game.presentation.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.geogame.flag_game.domain.usecases.GetRandomCountriesUseCase
-import com.example.geogame.flag_game.presentation.state.FlagGameState
+import com.example.geogame.flag_game.presentation.state.FlagGameUIState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class FlagGameViewModel(
     private val getRandomCountriesUseCase: GetRandomCountriesUseCase
 ) : ViewModel() {
-    private val _flagGameState = MutableLiveData<FlagGameState>()
-    val flagGameState: LiveData<FlagGameState> get() = _flagGameState
+    var flagGameState by mutableStateOf(FlagGameUIState())
+        private set
+    private var fetchJob: Job? = null
 
-//    fun getCountries() {
-//        viewModelScope.launch {
-//            _flagGameState.value = _flagGameState.value?.copy(
-//                countries = getRandomCountries(40)
-//            )
-//        }
-//    }
+    fun getCountries() {
+        fetchJob?.cancel()
+        viewModelScope.launch {
+            try {
+                flagGameState = flagGameState.copy(
+                    countries = getRandomCountriesUseCase(40)
+                )
+            } catch (t: Throwable) {
+                flagGameState = flagGameState.copy(
+                    userMessage = t.localizedMessage ?: "fetching countries failed"
+                )
+            }
+        }
+    }
 }
