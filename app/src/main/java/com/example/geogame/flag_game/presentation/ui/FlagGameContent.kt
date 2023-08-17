@@ -1,4 +1,4 @@
-package com.example.geogame.flag_game.presentation
+package com.example.geogame.flag_game.presentation.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

@@ -1,7 +1,6 @@
-package com.example.geogame.flag_game.presentation
+package com.example.geogame.main_menu.state
 
 sealed class MainMenuState {
     object Initial : MainMenuState()
     object Loading : MainMenuState()
-    object StartFlagGame : MainMenuState()
 }

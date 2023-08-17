@@ -1,22 +1,16 @@
-package com.example.geogame.flag_game.presentation
+package com.example.geogame.flag_game.presentation.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.geogame.flag_game.domain.usecases.GetRandomCountries
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import com.example.geogame.flag_game.domain.usecases.GetRandomCountriesUseCase
+import com.example.geogame.flag_game.presentation.state.FlagGameState
 
 class FlagGameViewModel(
-    private val getRandomCountries: GetRandomCountries
+    private val getRandomCountriesUseCase: GetRandomCountriesUseCase
 ) : ViewModel() {
     private val _flagGameState = MutableLiveData<FlagGameState>()
     val flagGameState: LiveData<FlagGameState> get() = _flagGameState
-
-    fun processIntent(intent: FlagGameIntent) {
-
-    }
 
 //    fun getCountries() {
 //        viewModelScope.launch {
