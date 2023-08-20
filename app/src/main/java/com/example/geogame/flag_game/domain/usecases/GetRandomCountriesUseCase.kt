@@ -1,22 +1,21 @@
 package com.example.geogame.flag_game.domain.usecases
 
 import com.example.geogame.core.data.mapper.CountryMapper
+import com.example.geogame.core.domain.model.FlagGameCountry
 import com.example.geogame.core.domain.repo.CountryRepository
-import com.example.geogame.core.domain.model.Country
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class GetRandomCountriesUseCase(
-    private val countryRepository: CountryRepository,
-    private val coroutineContext: CoroutineDispatcher = Dispatchers.IO
+    private val countryRepository: CountryRepository
 ) {
     suspend operator fun invoke(
         numOfCountries: Int
-    ): List<Country> =
-        withContext(coroutineContext) {
-            countryRepository.getRandomCountries(numOfCountries).map {
-                CountryMapper.toDomain(it)
-            }
+    ): Result<List<FlagGameCountry>> =
+        try {
+            Result.success(countryRepository.getRandomCountries(numOfCountries).map {
+                CountryMapper.toFlagGameCountry(it)
+            })
+        } catch (t: Throwable) {
+            Result.failure(t)
         }
+
 }

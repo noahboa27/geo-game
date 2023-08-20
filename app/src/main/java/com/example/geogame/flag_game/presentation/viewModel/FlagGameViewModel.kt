@@ -15,20 +15,21 @@ class FlagGameViewModel(
 ) : ViewModel() {
     var flagGameState by mutableStateOf(FlagGameUIState())
         private set
-    private var fetchJob: Job? = null
 
     fun getCountries() {
-        fetchJob?.cancel()
         viewModelScope.launch {
-            try {
-                flagGameState = flagGameState.copy(
-                    countries = getRandomCountriesUseCase(40)
-                )
-            } catch (t: Throwable) {
-                flagGameState = flagGameState.copy(
-                    userMessage = t.localizedMessage ?: "fetching countries failed"
-                )
-            }
+            getRandomCountriesUseCase(40).fold(
+                onSuccess = {
+                    flagGameState.copy(
+                        countries = it
+                    )
+                },
+                onFailure = {
+                    flagGameState.copy(
+                        userMessage = it.localizedMessage ?: "fetching countries failed"
+                    )
+                }
+            )
         }
     }
 }

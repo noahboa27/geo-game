@@ -2,6 +2,7 @@ package com.example.geogame
 
 import android.app.Application
 import com.example.geogame.core.coreKoinModule
+import com.example.geogame.core.data.cache.database.GeoGameDatabase
 import com.example.geogame.core.data.di.dataModule
 import com.example.geogame.core.data.network.di.retrofitModule
 import com.example.geogame.flag_game.di.useCaseModule
@@ -19,7 +20,7 @@ class GeoGame : Application() {
             modules(coreKoinModule, dataModule, retrofitModule, useCaseModule)
         }
 
-        // Probably get the countries here?
-        // Create db and store them
+        // Check for empty database in the slash or main activity
+        GeoGameDatabase.getInstance(this)
     }
 }

@@ -22,12 +22,11 @@ import com.example.geogame.R
 import com.example.geogame.flag_game.presentation.viewModel.FlagGameViewModel
 
 @Composable
-fun FlagGameContent(
-    viewModel: FlagGameViewModel = viewModel()
-) {
+fun FlagGameContent() {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
+        // remove constraints and use spacers with percentages
         val (quitButton, flagImage, answerOptionBox, progressBar, progressText) = createRefs()
         val flagImageGuideline = createGuidelineFromTop(0.2f)
         val answerBoxGuideline = createGuidelineFromTop(0.65f)

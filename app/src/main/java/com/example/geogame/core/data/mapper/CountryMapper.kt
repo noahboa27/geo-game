@@ -1,83 +1,54 @@
 package com.example.geogame.core.data.mapper
 
 import com.example.geogame.core.data.cache.model.LocalCountry
-import com.example.geogame.core.data.network.model.ApiCountry
-import com.example.geogame.core.domain.model.Country
+import com.example.geogame.core.data.network.model.CountryApiModel
+import com.example.geogame.core.domain.model.FlagGameCountry
 
 object CountryMapper {
-    fun toLocal(apiCountryModel: ApiCountry) = LocalCountry(
-        altSpellings = apiCountryModel.altSpellings,
-        area = apiCountryModel.area,
-        borders = apiCountryModel.borders,
-        capital = apiCountryModel.capital,
-        capitalInfo = apiCountryModel.capitalInfo,
-        car = apiCountryModel.car,
-        cca2 = apiCountryModel.cca2,
-        cca3 = apiCountryModel.cca3,
-        ccn3 = apiCountryModel.ccn3,
-        cioc = apiCountryModel.cioc,
-        coatOfArms = apiCountryModel.coatOfArms,
-        continents = apiCountryModel.continents,
-        currencies = apiCountryModel.currencies,
-        demonyms = apiCountryModel.demonyms,
-        fifa = apiCountryModel.fifa,
-        flag = apiCountryModel.flag,
-        flags = apiCountryModel.flags,
-        gini = apiCountryModel.gini,
-        idd = apiCountryModel.idd,
-        independent = apiCountryModel.independent,
-        landlocked = apiCountryModel.landlocked,
-        languages = apiCountryModel.languages,
-        latlng = apiCountryModel.latlng,
-        maps = apiCountryModel.maps,
-        name = apiCountryModel.name,
-        population = apiCountryModel.population,
-        postalCode = apiCountryModel.postalCode,
-        region = apiCountryModel.region,
-        startOfWeek = apiCountryModel.startOfWeek,
-        status = apiCountryModel.status,
-        subregion = apiCountryModel.subregion,
-        timezones = apiCountryModel.timezones,
-        tld = apiCountryModel.tld,
-        translations = apiCountryModel.translations,
-        unMember = apiCountryModel.unMember
+    fun toLocal(countryApiModel: CountryApiModel) = LocalCountry(
+        altSpellings = countryApiModel.altSpellings,
+        area = countryApiModel.area,
+        borders = countryApiModel.borders,
+        capital = countryApiModel.capital,
+        capitalInfo = countryApiModel.capitalInfo,
+        car = countryApiModel.car,
+        cca2 = countryApiModel.cca2,
+        cca3 = countryApiModel.cca3,
+        ccn3 = countryApiModel.ccn3,
+        cioc = countryApiModel.cioc,
+        coatOfArms = countryApiModel.coatOfArms,
+        continents = countryApiModel.continents,
+        currencies = countryApiModel.currencies,
+        demonyms = countryApiModel.demonyms,
+        fifa = countryApiModel.fifa,
+        flag = countryApiModel.flag,
+        flags = countryApiModel.flags,
+        gini = countryApiModel.gini,
+        idd = countryApiModel.idd,
+        independent = countryApiModel.independent,
+        landlocked = countryApiModel.landlocked,
+        languages = countryApiModel.languages,
+        latlng = countryApiModel.latlng,
+        maps = countryApiModel.maps,
+        name = countryApiModel.name,
+        population = countryApiModel.population,
+        postalCode = countryApiModel.postalCode,
+        region = countryApiModel.region,
+        startOfWeek = countryApiModel.startOfWeek,
+        status = countryApiModel.status,
+        subregion = countryApiModel.subregion,
+        timezones = countryApiModel.timezones,
+        tld = countryApiModel.tld,
+        translations = countryApiModel.translations,
+        unMember = countryApiModel.unMember
     )
 
-    fun toDomain(localCountry: LocalCountry) = Country(
-        altSpellings = localCountry.altSpellings,
-        area = localCountry.area,
-        borders = localCountry.borders,
-        capital = localCountry.capital,
-        capitalInfo = localCountry.capitalInfo,
-        car = localCountry.car,
-        cca2 = localCountry.cca2,
-        cca3 = localCountry.cca3,
-        ccn3 = localCountry.ccn3,
-        cioc = localCountry.cioc,
-        coatOfArms = localCountry.coatOfArms,
-        continents = localCountry.continents,
-        currencies = localCountry.currencies,
-        demonyms = localCountry.demonyms,
-        fifa = localCountry.fifa,
+    fun toFlagGameCountry(localCountry: LocalCountry) = FlagGameCountry(
         flag = localCountry.flag,
-        flags = localCountry.flags,
-        gini = localCountry.gini,
-        idd = localCountry.idd,
-        independent = localCountry.independent,
-        landlocked = localCountry.landlocked,
-        languages = localCountry.languages,
-        latlng = localCountry.latlng,
-        maps = localCountry.maps,
-        name = localCountry.name,
-        population = localCountry.population,
-        postalCode = localCountry.postalCode,
-        region = localCountry.region,
-        startOfWeek = localCountry.startOfWeek,
-        status = localCountry.status,
-        subregion = localCountry.subregion,
-        timezones = localCountry.timezones,
-        tld = localCountry.tld,
-        translations = localCountry.translations,
-        unMember = localCountry.unMember
+        name = localCountry.name
     )
+
+    // fun toGlobeGameCountry
+    // fun toTriviaGameCountry
+    // just some other ideas
 }
