@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.geogame.flag_game.domain.usecases.GetRandomCountriesUseCase
 import com.example.geogame.flag_game.presentation.state.FlagGameUIState
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class FlagGameViewModel(
