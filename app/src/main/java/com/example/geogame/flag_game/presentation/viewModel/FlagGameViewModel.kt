@@ -12,23 +12,27 @@ import kotlinx.coroutines.launch
 class FlagGameViewModel(
     private val getRandomCountriesUseCase: GetRandomCountriesUseCase
 ) : ViewModel() {
-    var flagGameState by mutableStateOf(FlagGameUIState())
+    var flagGameUiState by mutableStateOf(FlagGameUIState())
         private set
 
     fun getCountries() {
         viewModelScope.launch {
             getRandomCountriesUseCase(40).fold(
                 onSuccess = {
-                    flagGameState.copy(
-                        countries = it
+                    flagGameUiState.copy(
+                        countryAnswerLists = it.chunked(ANSWER_SET_SIZE)
                     )
                 },
                 onFailure = {
-                    flagGameState.copy(
+                    flagGameUiState.copy(
                         userMessage = it.localizedMessage ?: "fetching countries failed"
                     )
                 }
             )
         }
+    }
+
+    companion object {
+        const val ANSWER_SET_SIZE: Int = 4
     }
 }
