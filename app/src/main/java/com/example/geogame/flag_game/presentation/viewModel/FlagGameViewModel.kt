@@ -14,13 +14,14 @@ class FlagGameViewModel(
 ) : ViewModel() {
     var flagGameUiState by mutableStateOf(FlagGameUIState())
         private set
+    private val countryList = getCountries()
 
-    fun getCountries() {
+    private fun getCountries() {
         viewModelScope.launch {
             getRandomCountriesUseCase(40).fold(
                 onSuccess = {
                     flagGameUiState.copy(
-                        countryAnswerLists = it.chunked(ANSWER_SET_SIZE)
+                        countryLists = it.chunked(ANSWER_SET_SIZE)
                     )
                 },
                 onFailure = {
