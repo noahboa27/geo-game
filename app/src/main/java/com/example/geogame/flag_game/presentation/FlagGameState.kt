@@ -4,11 +4,9 @@ import com.example.geogame.core.domain.model.Country
 
 sealed class FlagGameState {
     object Initial : FlagGameState()
-    object IsLoading : FlagGameState()
+    object Loading : FlagGameState()
+    data class Error(val errorMessage: String) : FlagGameState()
     data class Question(val countries: List<Country>, val correctCountry: Country) : FlagGameState()
-    object NextQuestion : FlagGameState()
-    object AnswerCorrect : FlagGameState()
-    object AnswerIncorrect : FlagGameState()
     object GameOverResults : FlagGameState()
-    object GameOverForced : FlagGameState()
+    object QuitGame : FlagGameState()
 }
