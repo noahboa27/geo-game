@@ -1,13 +1,11 @@
 package com.example.geogame.core.data.network.model
 
-
-import com.example.geogame.core.data.cache.model.LocalCountry
 import com.example.geogame.core.domain.model.*
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class ApiCountry(
+data class CountryApiModel(
     @Json(name = "altSpellings") val altSpellings: List<String> = listOf(),
     @Json(name = "area") val area: Double = 0.0,
     @Json(name = "borders") val borders: List<String> = listOf(),
@@ -43,44 +41,4 @@ data class ApiCountry(
     @Json(name = "tld") val tld: List<String> = listOf(),
     @Json(name = "translations") val translations: Translations = Translations(),
     @Json(name = "unMember") val unMember: Boolean = false
-) {
-    companion object {
-        fun toLocal(apiModel: ApiCountry) = LocalCountry(
-            altSpellings = apiModel.altSpellings,
-            area = apiModel.area,
-            borders = apiModel.borders,
-            capital = apiModel.capital,
-            capitalInfo = apiModel.capitalInfo,
-            car = apiModel.car,
-            cca2 = apiModel.cca2,
-            cca3 = apiModel.cca3,
-            ccn3 = apiModel.ccn3,
-            cioc = apiModel.cioc,
-            coatOfArms = apiModel.coatOfArms,
-            continents = apiModel.continents,
-            currencies = apiModel.currencies,
-            demonyms = apiModel.demonyms,
-            fifa = apiModel.fifa,
-            flag = apiModel.flag,
-            flags = apiModel.flags,
-            gini = apiModel.gini,
-            idd = apiModel.idd,
-            independent = apiModel.independent,
-            landlocked = apiModel.landlocked,
-            languages = apiModel.languages,
-            latlng = apiModel.latlng,
-            maps = apiModel.maps,
-            name = apiModel.name,
-            population = apiModel.population,
-            postalCode = apiModel.postalCode,
-            region = apiModel.region,
-            startOfWeek = apiModel.startOfWeek,
-            status = apiModel.status,
-            subregion = apiModel.subregion,
-            timezones = apiModel.timezones,
-            tld = apiModel.tld,
-            translations = apiModel.translations,
-            unMember = apiModel.unMember
-        )
-    }
-}
+)

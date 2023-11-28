@@ -13,5 +13,5 @@ val dataModule = module {
         database.countryDao()
     }
 
-    factory<CountryRepository> { CountryRepositoryImpl(get()) }
+    factory<CountryRepository> { CountryRepositoryImpl(get(), get()) }
 }

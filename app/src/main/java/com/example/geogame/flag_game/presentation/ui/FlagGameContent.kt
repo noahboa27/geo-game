@@ -1,4 +1,4 @@
-package com.example.geogame.flag_game.presentation
+package com.example.geogame.flag_game.presentation.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -17,13 +17,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.geogame.R
+import com.example.geogame.core.domain.model.FlagGameCountry
+import com.example.geogame.flag_game.presentation.events.FlagGameEvent
+import com.example.geogame.flag_game.presentation.state.FlagGameUIState
+import com.example.geogame.flag_game.presentation.viewModel.FlagGameViewModel
 
 @Composable
-fun FlagGameContent() {
+fun FlagGameContent(
+    state: FlagGameUIState,
+    answerClicked: (FlagGameCountry) -> Unit
+) {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
+        // remove constraints and use spacers with percentages
         val (quitButton, flagImage, answerOptionBox, progressBar, progressText) = createRefs()
         val flagImageGuideline = createGuidelineFromTop(0.2f)
         val answerBoxGuideline = createGuidelineFromTop(0.65f)
@@ -130,5 +139,5 @@ fun FlagGameContent() {
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewFlagGameContent() {
-    FlagGameContent()
+    FlagGameContent(FlagGameUIState(), {})
 }
