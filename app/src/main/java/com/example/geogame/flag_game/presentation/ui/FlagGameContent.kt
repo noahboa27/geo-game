@@ -17,12 +17,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.geogame.R
 import com.example.geogame.core.domain.model.FlagGameCountry
-import com.example.geogame.flag_game.presentation.events.FlagGameEvent
 import com.example.geogame.flag_game.presentation.state.FlagGameUIState
-import com.example.geogame.flag_game.presentation.viewModel.FlagGameViewModel
 
 @Composable
 fun FlagGameContent(

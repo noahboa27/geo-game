@@ -3,11 +3,13 @@ package com.example.geogame.main_menu.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,7 +17,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun MainMenuContent() {
-    Column {
+    Column(modifier = Modifier.fillMaxSize()) {
         Spacer(modifier = Modifier.fillMaxHeight(0.2f))
         Text(
             text = "Geo Game",
@@ -44,7 +46,7 @@ fun MainMenuContent() {
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun PreviewMainMenuContent() {
     MainMenuContent()
