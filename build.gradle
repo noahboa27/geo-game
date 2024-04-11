@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        compose_ui_version = '1.4.3'
-        room_version = '2.5.2'
+        compose_ui_version = '1.6.5'
+        room_version = '2.6.1'
         koin_version = '3.3.3'
         koin_compose_version = '3.4.2'
         retrofit_version = '2.9.0'
