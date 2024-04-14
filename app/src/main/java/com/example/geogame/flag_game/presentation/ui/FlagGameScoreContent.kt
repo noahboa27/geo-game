@@ -10,12 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.example.geogame.flag_game.presentation.state.FlagGameUIState
+import com.example.geogame.flag_game.presentation.state.FlagGameState
 
 @Composable
-fun FlagGameScoreContent(state: FlagGameUIState) {
+fun FlagGameScoreContent(state: FlagGameState) {
     Column {
         Spacer(modifier = Modifier.fillMaxHeight(0.15f))
         Text(
@@ -46,7 +45,7 @@ fun FlagGameScoreContent(state: FlagGameUIState) {
 @Composable
 fun PreviewFlagGameScoreContent() {
     FlagGameScoreContent(
-        FlagGameUIState(
+        FlagGameState(
             finalScore = 7
         )
     )

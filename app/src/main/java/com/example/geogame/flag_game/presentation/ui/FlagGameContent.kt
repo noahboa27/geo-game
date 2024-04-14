@@ -19,11 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.geogame.R
 import com.example.geogame.core.domain.model.FlagGameCountry
-import com.example.geogame.flag_game.presentation.state.FlagGameUIState
+import com.example.geogame.flag_game.presentation.state.FlagGameState
 
 @Composable
 fun FlagGameContent(
-    state: FlagGameUIState,
+    state: FlagGameState,
     answerClicked: (FlagGameCountry) -> Unit
 ) {
     ConstraintLayout(
@@ -136,5 +136,5 @@ fun FlagGameContent(
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewFlagGameContent() {
-    FlagGameContent(FlagGameUIState(), {})
+    FlagGameContent(FlagGameState(), {})
 }
