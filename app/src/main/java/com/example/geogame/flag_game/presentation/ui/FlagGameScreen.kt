@@ -11,6 +11,10 @@ import androidx.compose.material.Button
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -19,13 +23,23 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.geogame.R
 import com.example.geogame.core.domain.model.FlagGameCountry
-import com.example.geogame.flag_game.presentation.state.FlagGameState
+import com.example.geogame.core.domain.model.Name
+import com.example.geogame.flag_game.presentation.QuestionSet
+import com.example.geogame.flag_game.presentation.intent.FlagGameIntent
+
+@Composable
+fun FlagGameScreen(answerOptions: QuestionSet) {
+    var options by rememberSaveable {
+        mutableStateOf(answerOptions)
+    }
+}
 
 @Composable
 fun FlagGameContent(
-    state: FlagGameState,
-    answerClicked: (FlagGameCountry) -> Unit
+    answerOptions: QuestionSet,
+    onIntent: (FlagGameIntent) -> Unit
 ) {
+
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -43,7 +57,7 @@ fun FlagGameContent(
                     end.linkTo(parent.end)
                 }
                 .padding(10.dp),
-            onClick = { /*TODO*/ }
+            onClick = { onIntent(FlagGameIntent.QuitClicked) }
         ) {
             Text(text = "Quit")
         }
@@ -70,44 +84,56 @@ fun FlagGameContent(
                 },
             contentAlignment = Alignment.Center
         ) {
+            // top left
             Button(
                 shape = RoundedCornerShape(percent = 50),
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .fillMaxWidth(0.45f),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    onIntent(FlagGameIntent.AnswerSelected(answerOptions.countryList[0]))
+                }
             ) {
-                Text(text = "Option 1")
+                Text(text = answerOptions.countryList[0].name.common)
             }
 
+            // top right
             Button(
                 shape = RoundedCornerShape(percent = 50),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .fillMaxWidth(0.45f),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    onIntent(FlagGameIntent.AnswerSelected(answerOptions.countryList[1]))
+                }
             ) {
-                Text(text = "Option 2")
+                Text(text = answerOptions.countryList[1].name.common)
             }
 
+            // bottom left
             Button(
                 shape = RoundedCornerShape(percent = 50),
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .fillMaxWidth(0.45f),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    onIntent(FlagGameIntent.AnswerSelected(answerOptions.countryList[2]))
+                }
             ) {
-                Text(text = "Option 3")
+                Text(text = answerOptions.countryList[2].name.common)
             }
 
+            // bottom right
             Button(
                 shape = RoundedCornerShape(percent = 50),
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .fillMaxWidth(0.45f),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    onIntent(FlagGameIntent.AnswerSelected(answerOptions.countryList[3]))
+                }
             ) {
-                Text(text = "Option 4")
+                Text(text = answerOptions.countryList[3].name.common)
             }
         }
 
@@ -136,5 +162,15 @@ fun FlagGameContent(
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewFlagGameContent() {
-    FlagGameContent(FlagGameState(), {})
+    FlagGameContent(
+        answerOptions = QuestionSet(
+            countryList = listOf(
+                FlagGameCountry("", Name(common = "USA")),
+                FlagGameCountry("", Name(common = "Canada")),
+                FlagGameCountry("", Name(common = "France")),
+                FlagGameCountry("", Name(common = "Mexico"))
+            )
+        ),
+        onIntent = {}
+    )
 }

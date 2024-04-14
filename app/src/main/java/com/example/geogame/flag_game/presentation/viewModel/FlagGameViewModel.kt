@@ -1,31 +1,39 @@
 package com.example.geogame.flag_game.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.geogame.core.domain.model.FlagGameCountry
 import com.example.geogame.flag_game.domain.usecases.GetRandomCountriesUseCase
+import com.example.geogame.flag_game.presentation.QuestionSet
 import com.example.geogame.flag_game.presentation.intent.FlagGameIntent
 import com.example.geogame.flag_game.presentation.state.FlagGameState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class FlagGameViewModel(
     private val getRandomCountries: GetRandomCountriesUseCase
 ) : ViewModel() {
 
+    private val questionSets: MutableList<QuestionSet> = mutableListOf()
     private val _flagGameState = MutableStateFlow(FlagGameState())
     val flagGameState = _flagGameState.asStateFlow()
 
     fun processIntent(intent: FlagGameIntent) {
         when (intent) {
-            is FlagGameIntent.AnswerClicked -> processAnswer(intent.flagGameCountry)
+            is FlagGameIntent.AnswerSelected -> processAnswer(intent.flagGameCountry)
             is FlagGameIntent.QuitClicked -> quitClicked()
             is FlagGameIntent.ShowResults -> showScore()
         }
     }
 
     private fun processAnswer(answer: FlagGameCountry) {
-        // decide if the answer is correct or not, give feedback, and move to the next question
+        // decide if the answer is correct or not
+
+        // give feedback
+        // move to the next question
     }
 
     private fun quitClicked() {
@@ -42,11 +50,34 @@ class FlagGameViewModel(
         // back to main menu
     }
 
-//    fun getCountries() {
-//        viewModelScope.launch {
-//            _flagGameState.value = _flagGameState.value?.copy(
-//                countries = getRandomCountries(40)
-//            )
-//        }
-//    }
+    fun getCountries() {
+        viewModelScope.launch {
+            val countries = getRandomCountries(40)
+            countries
+                .onSuccess {
+                    setAnswers(it)
+                }
+                .onFailure {
+                    _flagGameState.update {
+                        it.copy(errorMessage = "Something went wrong. Please try again.")
+                    }
+                }
+        }
+    }
+
+    private fun setAnswers(countries: List<FlagGameCountry>) {
+        val chunkedCountries = countries.chunked(4)
+        chunkedCountries.forEach {
+            val randomNum = Random.nextInt(0, 4)
+            val setOfQuestions = QuestionSet(
+                countryList = it,
+                answer = it[randomNum]
+            )
+            questionSets.add(setOfQuestions)
+        }
+
+        _flagGameState.update {
+            it.copy(currentQuestion = questionSets.first())
+        }
+    }
 }

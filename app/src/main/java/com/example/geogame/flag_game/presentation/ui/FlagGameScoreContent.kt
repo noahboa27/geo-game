@@ -3,6 +3,7 @@ package com.example.geogame.flag_game.presentation.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -15,7 +16,7 @@ import com.example.geogame.flag_game.presentation.state.FlagGameState
 
 @Composable
 fun FlagGameScoreContent(state: FlagGameState) {
-    Column {
+    Column(modifier = Modifier.fillMaxSize()) {
         Spacer(modifier = Modifier.fillMaxHeight(0.15f))
         Text(
             text = "Final Score",
