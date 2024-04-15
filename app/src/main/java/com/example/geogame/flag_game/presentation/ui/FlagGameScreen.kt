@@ -14,29 +14,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.geogame.R
 import com.example.geogame.core.domain.model.FlagGameCountry
 import com.example.geogame.core.domain.model.Name
 import com.example.geogame.flag_game.presentation.QuestionSet
 import com.example.geogame.flag_game.presentation.intent.FlagGameIntent
+import com.example.geogame.flag_game.presentation.viewModel.FlagGameViewModel
 
 @Composable
-fun FlagGameScreen(answerOptions: QuestionSet) {
-    var options by rememberSaveable {
-        mutableStateOf(answerOptions)
+fun FlagGameScreen(
+    viewModel: FlagGameViewModel = viewModel()
+) {
+    val state = viewModel.flagGameState.collectAsStateWithLifecycle()
+    val isLoading = state.value.isLoading
+    val currentQuestionSet by rememberSaveable {
+        mutableStateOf(state.value.currentQuestionSet)
+    }
+
+    FlagGameContent(isLoading, currentQuestionSet) {
+        viewModel.processIntent(it)
     }
 }
 
 @Composable
 fun FlagGameContent(
-    answerOptions: QuestionSet,
+    isLoading: Boolean,
+    questionSet: QuestionSet,
     onIntent: (FlagGameIntent) -> Unit
 ) {
 
@@ -63,6 +74,7 @@ fun FlagGameContent(
         }
 
         Image(
+            //FIXME
             painter = painterResource(id = R.drawable.united_states_flag),
             contentDescription = "US Flag",
             modifier = Modifier
@@ -91,10 +103,14 @@ fun FlagGameContent(
                     .align(Alignment.TopStart)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onIntent(FlagGameIntent.AnswerSelected(answerOptions.countryList[0]))
+                    onIntent(
+                        FlagGameIntent.AnswerSelected(
+                            questionSet.countryOptions[0]
+                        )
+                    )
                 }
             ) {
-                Text(text = answerOptions.countryList[0].name.common)
+                Text(text = questionSet.countryOptions[0].name.common)
             }
 
             // top right
@@ -104,10 +120,14 @@ fun FlagGameContent(
                     .align(Alignment.TopEnd)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onIntent(FlagGameIntent.AnswerSelected(answerOptions.countryList[1]))
+                    onIntent(
+                        FlagGameIntent.AnswerSelected(
+                            questionSet.countryOptions[1]
+                        )
+                    )
                 }
             ) {
-                Text(text = answerOptions.countryList[1].name.common)
+                Text(text = questionSet.countryOptions[1].name.common)
             }
 
             // bottom left
@@ -117,10 +137,14 @@ fun FlagGameContent(
                     .align(Alignment.BottomStart)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onIntent(FlagGameIntent.AnswerSelected(answerOptions.countryList[2]))
+                    onIntent(
+                        FlagGameIntent.AnswerSelected(
+                            questionSet.countryOptions[2]
+                        )
+                    )
                 }
             ) {
-                Text(text = answerOptions.countryList[2].name.common)
+                Text(text = questionSet.countryOptions[2].name.common)
             }
 
             // bottom right
@@ -130,10 +154,14 @@ fun FlagGameContent(
                     .align(Alignment.BottomEnd)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onIntent(FlagGameIntent.AnswerSelected(answerOptions.countryList[3]))
+                    onIntent(
+                        FlagGameIntent.AnswerSelected(
+                            questionSet.countryOptions[3]
+                        )
+                    )
                 }
             ) {
-                Text(text = answerOptions.countryList[3].name.common)
+                Text(text = questionSet.countryOptions[3].name.common)
             }
         }
 
@@ -163,8 +191,9 @@ fun FlagGameContent(
 @Composable
 fun PreviewFlagGameContent() {
     FlagGameContent(
-        answerOptions = QuestionSet(
-            countryList = listOf(
+        isLoading = false,
+        questionSet = QuestionSet(
+            countryOptions = listOf(
                 FlagGameCountry("", Name(common = "USA")),
                 FlagGameCountry("", Name(common = "Canada")),
                 FlagGameCountry("", Name(common = "France")),

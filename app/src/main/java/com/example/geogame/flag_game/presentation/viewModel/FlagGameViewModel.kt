@@ -70,14 +70,14 @@ class FlagGameViewModel(
         chunkedCountries.forEach {
             val randomNum = Random.nextInt(0, 4)
             val setOfQuestions = QuestionSet(
-                countryList = it,
+                countryOptions = it,
                 answer = it[randomNum]
             )
             questionSets.add(setOfQuestions)
         }
 
         _flagGameState.update {
-            it.copy(currentQuestion = questionSets.first())
+            it.copy(currentQuestionSet = questionSets.first())
         }
     }
 }
