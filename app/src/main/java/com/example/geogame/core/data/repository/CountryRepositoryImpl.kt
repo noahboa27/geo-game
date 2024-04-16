@@ -15,9 +15,9 @@ class CountryRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): CountryRepository {
 
-    override suspend fun insertAllCountries(vararg countries: LocalCountry) =
+    override suspend fun insertCountry(country: LocalCountry) =
         scope.launch {
-            countriesDao.insertAll(*countries)
+            countriesDao.insert(country)
         }.join()
 
     override suspend fun getCountryBy(name: String): LocalCountry =

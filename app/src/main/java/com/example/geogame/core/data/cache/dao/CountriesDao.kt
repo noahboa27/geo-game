@@ -10,7 +10,7 @@ import com.example.geogame.core.data.cache.model.LocalCountry
 interface CountriesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg countries: LocalCountry)
+    suspend fun insert(country: LocalCountry)
 
     @Query("SELECT * FROM countries WHERE name = :name LIMIT 1")
     suspend fun getCountryBy(name: String): LocalCountry
