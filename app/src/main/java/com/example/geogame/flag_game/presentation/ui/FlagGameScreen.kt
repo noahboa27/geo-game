@@ -35,11 +35,11 @@ fun FlagGameScreen(
 ) {
     val state = viewModel.flagGameState.collectAsStateWithLifecycle()
     val isLoading = state.value.isLoading
-    val currentQuestionSet by rememberSaveable {
-        mutableStateOf(state.value.currentQuestionSet)
+    val currentQuestion by rememberSaveable {
+        mutableStateOf(state.value.currentQuestion)
     }
 
-    FlagGameContent(isLoading, currentQuestionSet) {
+    FlagGameContent(isLoading, currentQuestion) {
         viewModel.processIntent(it)
     }
 }
@@ -105,12 +105,12 @@ fun FlagGameContent(
                 onClick = {
                     onIntent(
                         FlagGameIntent.AnswerSelected(
-                            questionSet.countryOptions[0]
+                            questionSet.options[0]
                         )
                     )
                 }
             ) {
-                Text(text = questionSet.countryOptions[0].name.common)
+                Text(text = questionSet.options[0].name.common)
             }
 
             // top right
@@ -122,12 +122,12 @@ fun FlagGameContent(
                 onClick = {
                     onIntent(
                         FlagGameIntent.AnswerSelected(
-                            questionSet.countryOptions[1]
+                            questionSet.options[1]
                         )
                     )
                 }
             ) {
-                Text(text = questionSet.countryOptions[1].name.common)
+                Text(text = questionSet.options[1].name.common)
             }
 
             // bottom left
@@ -139,12 +139,12 @@ fun FlagGameContent(
                 onClick = {
                     onIntent(
                         FlagGameIntent.AnswerSelected(
-                            questionSet.countryOptions[2]
+                            questionSet.options[2]
                         )
                     )
                 }
             ) {
-                Text(text = questionSet.countryOptions[2].name.common)
+                Text(text = questionSet.options[2].name.common)
             }
 
             // bottom right
@@ -156,12 +156,12 @@ fun FlagGameContent(
                 onClick = {
                     onIntent(
                         FlagGameIntent.AnswerSelected(
-                            questionSet.countryOptions[3]
+                            questionSet.options[3]
                         )
                     )
                 }
             ) {
-                Text(text = questionSet.countryOptions[3].name.common)
+                Text(text = questionSet.options[3].name.common)
             }
         }
 
@@ -193,7 +193,7 @@ fun PreviewFlagGameContent() {
     FlagGameContent(
         isLoading = false,
         questionSet = QuestionSet(
-            countryOptions = listOf(
+            options = listOf(
                 FlagGameCountry("", Name(common = "USA")),
                 FlagGameCountry("", Name(common = "Canada")),
                 FlagGameCountry("", Name(common = "France")),

@@ -25,7 +25,7 @@ fun FlagGameScoreContent(state: FlagGameState) {
         )
         Spacer(modifier = Modifier.fillMaxHeight(0.1f))
         Text(
-            text = "${state.finalScore}/10",
+            text = "${state.score}/10",
             fontSize = 50.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
@@ -47,7 +47,7 @@ fun FlagGameScoreContent(state: FlagGameState) {
 fun PreviewFlagGameScoreContent() {
     FlagGameScoreContent(
         FlagGameState(
-            finalScore = 7
+            score = 7
         )
     )
 }

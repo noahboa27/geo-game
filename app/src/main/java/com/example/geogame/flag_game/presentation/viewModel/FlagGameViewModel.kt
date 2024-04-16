@@ -17,7 +17,6 @@ class FlagGameViewModel(
     private val getRandomCountries: GetRandomCountriesUseCase
 ) : ViewModel() {
 
-    private val questionSets: MutableList<QuestionSet> = mutableListOf()
     private val _flagGameState = MutableStateFlow(FlagGameState())
     val flagGameState = _flagGameState.asStateFlow()
 
@@ -29,11 +28,18 @@ class FlagGameViewModel(
         }
     }
 
-    private fun processAnswer(answer: FlagGameCountry) {
+    private fun processAnswer(userAnswer: FlagGameCountry) {
         // decide if the answer is correct or not
-
-        // give feedback
+        if (userAnswer == _flagGameState.value.currentQuestion.answer) {
+            _flagGameState.update {
+                it.copy(score = it.score + 1)
+            }
+        }
+        // give feedback?
         // move to the next question
+        _flagGameState.update {
+            it.copy(currentQuestion = it.questions[it.currentQuestion.index + 1])
+        }
     }
 
     private fun quitClicked() {
@@ -58,6 +64,7 @@ class FlagGameViewModel(
                     setAnswers(it)
                 }
                 .onFailure {
+                    // most likely this will just be an error dialog or similar
                     _flagGameState.update {
                         it.copy(errorMessage = "Something went wrong. Please try again.")
                     }
@@ -67,17 +74,22 @@ class FlagGameViewModel(
 
     private fun setAnswers(countries: List<FlagGameCountry>) {
         val chunkedCountries = countries.chunked(4)
-        chunkedCountries.forEach {
+        val questions: MutableList<QuestionSet> = mutableListOf()
+        chunkedCountries.forEachIndexed { index, flagGameCountries ->
             val randomNum = Random.nextInt(0, 4)
-            val setOfQuestions = QuestionSet(
-                countryOptions = it,
-                answer = it[randomNum]
+            val questionSet = QuestionSet(
+                index = index,
+                options = flagGameCountries,
+                answer = flagGameCountries[randomNum]
             )
-            questionSets.add(setOfQuestions)
+            questions.add(questionSet)
         }
 
         _flagGameState.update {
-            it.copy(currentQuestionSet = questionSets.first())
+            it.copy(
+                questions = questions,
+                currentQuestion = questions.first()
+            )
         }
     }
 }
