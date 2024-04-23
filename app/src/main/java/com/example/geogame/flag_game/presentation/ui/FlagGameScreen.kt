@@ -25,7 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.geogame.R
 import com.example.geogame.core.domain.model.FlagGameCountry
 import com.example.geogame.core.domain.model.Name
-import com.example.geogame.flag_game.presentation.QuestionSet
+import com.example.geogame.flag_game.domain.data.QuestionSet
 import com.example.geogame.flag_game.presentation.intent.FlagGameIntent
 import com.example.geogame.flag_game.presentation.viewModel.FlagGameViewModel
 

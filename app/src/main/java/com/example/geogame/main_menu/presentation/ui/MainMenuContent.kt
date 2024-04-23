@@ -1,4 +1,4 @@
-package com.example.geogame.main_menu.ui
+package com.example.geogame.main_menu.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

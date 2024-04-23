@@ -2,18 +2,18 @@ package com.example.geogame.core.data.repository
 
 import com.example.geogame.core.data.cache.dao.CountriesDao
 import com.example.geogame.core.data.cache.model.LocalCountry
-import com.example.geogame.core.domain.repo.CountryRepository
+import com.example.geogame.core.domain.repo.LocalCountryRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class CountryRepositoryImpl(
+class LocalCountryRepositoryImpl(
     private val countriesDao: CountriesDao,
     private val scope: CoroutineScope,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-): CountryRepository {
+): LocalCountryRepository {
 
     override suspend fun insertCountry(country: LocalCountry) =
         scope.launch {

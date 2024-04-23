@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CountryApiModel(
+data class RemoteCountry(
     @Json(name = "altSpellings") val altSpellings: List<String> = listOf(),
     @Json(name = "area") val area: Double = 0.0,
     @Json(name = "borders") val borders: List<String> = listOf(),

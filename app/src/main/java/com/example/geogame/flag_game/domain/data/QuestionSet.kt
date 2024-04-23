@@ -1,4 +1,4 @@
-package com.example.geogame.flag_game.presentation
+package com.example.geogame.flag_game.domain.data
 
 import com.example.geogame.core.domain.model.FlagGameCountry
 import com.example.geogame.core.domain.model.Name

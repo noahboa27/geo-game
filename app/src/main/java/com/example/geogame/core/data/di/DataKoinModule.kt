@@ -1,8 +1,8 @@
 package com.example.geogame.core.data.di
 
 import com.example.geogame.core.data.cache.database.GeoGameDatabase
-import com.example.geogame.core.domain.repo.CountryRepository
-import com.example.geogame.core.data.repository.CountryRepositoryImpl
+import com.example.geogame.core.domain.repo.LocalCountryRepository
+import com.example.geogame.core.data.repository.LocalCountryRepositoryImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -13,5 +13,5 @@ val dataModule = module {
         database.countryDao()
     }
 
-    factory<CountryRepository> { CountryRepositoryImpl(get(), get()) }
+    factory<LocalCountryRepository> { LocalCountryRepositoryImpl(get(), get()) }
 }

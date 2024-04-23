@@ -1,6 +1,6 @@
 package com.example.geogame.flag_game.presentation.state
 
-import com.example.geogame.flag_game.presentation.QuestionSet
+import com.example.geogame.flag_game.domain.data.QuestionSet
 
 data class FlagGameState(
     val isLoading: Boolean = true,

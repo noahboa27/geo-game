@@ -1,17 +1,17 @@
-package com.example.geogame.flag_game.domain.usecases
+package com.example.geogame.flag_game.domain.useCase
 
 import com.example.geogame.core.data.mapper.CountryMapper
 import com.example.geogame.core.domain.model.FlagGameCountry
-import com.example.geogame.core.domain.repo.CountryRepository
+import com.example.geogame.core.domain.repo.LocalCountryRepository
 
 class GetRandomCountriesUseCase(
-    private val countryRepository: CountryRepository
+    private val localCountryRepository: LocalCountryRepository
 ) {
     suspend operator fun invoke(
         numOfCountries: Int
     ): Result<List<FlagGameCountry>> =
         try {
-            Result.success(countryRepository.getRandomCountries(numOfCountries).map {
+            Result.success(localCountryRepository.getRandomCountries(numOfCountries).map {
                 CountryMapper.toFlagGameCountry(it)
             })
         } catch (t: Throwable) {

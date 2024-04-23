@@ -3,8 +3,8 @@ package com.example.geogame.flag_game.presentation.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.geogame.core.domain.model.FlagGameCountry
-import com.example.geogame.flag_game.domain.usecases.GetRandomCountriesUseCase
-import com.example.geogame.flag_game.presentation.QuestionSet
+import com.example.geogame.flag_game.domain.useCase.GetRandomCountriesUseCase
+import com.example.geogame.flag_game.domain.data.QuestionSet
 import com.example.geogame.flag_game.presentation.intent.FlagGameIntent
 import com.example.geogame.flag_game.presentation.state.FlagGameState
 import kotlinx.coroutines.flow.MutableStateFlow
