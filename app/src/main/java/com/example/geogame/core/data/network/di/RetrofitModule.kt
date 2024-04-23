@@ -8,10 +8,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 val retrofitModule = module {
+    single { provideRetrofit(get()) }
     factory { HttpLoggingInterceptor() }
     factory { provideOkHttpClient(get()) }
     factory { provideRestCountriesApi(get()) }
-    single { provideRetrofit(get()) }
 }
 
 fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
