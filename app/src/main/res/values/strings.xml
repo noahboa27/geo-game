@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GeoGame</string>
+
+    <!-- Navigation -->
+    <string name="route_main_menu">MainMenu</string>
+    <string name="route_flag_game">FlagGame</string>
 </resources>
