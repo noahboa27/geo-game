@@ -5,6 +5,7 @@ import com.example.geogame.core.coreKoinModule
 import com.example.geogame.core.data.cache.database.GeoGameDatabase
 import com.example.geogame.core.data.di.dataModule
 import com.example.geogame.core.data.network.di.retrofitModule
+import com.example.geogame.core.navigation.navModule
 import com.example.geogame.flag_game.di.flagGameModule
 import com.example.geogame.main_menu.di.mainMenuModule
 import org.koin.android.ext.koin.androidContext
@@ -22,6 +23,7 @@ class GeoGame : Application() {
                 coreKoinModule,
                 dataModule,
                 retrofitModule,
+                navModule,
                 mainMenuModule,
                 flagGameModule
             )
