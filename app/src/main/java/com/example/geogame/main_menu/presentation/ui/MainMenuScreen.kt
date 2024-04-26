@@ -13,14 +13,13 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.geogame.main_menu.presentation.MainMenuIntent
+import com.example.geogame.main_menu.presentation.intent.MainMenuIntent
 import com.example.geogame.main_menu.presentation.viewModel.MainMenuViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun MainMenuScreen(
-    viewModel: MainMenuViewModel = viewModel()
-) {
+fun MainMenuScreen() {
+    val viewModel: MainMenuViewModel = getViewModel()
     // val state = viewModel.mainMenuState.collectAsStateWithLifecycle()
 
     MainMenuContent {
