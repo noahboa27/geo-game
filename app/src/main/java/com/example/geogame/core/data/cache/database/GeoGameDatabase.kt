@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.geogame.core.data.cache.converter.Converters
 import com.example.geogame.core.data.cache.dao.CountriesDao
 import com.example.geogame.core.data.cache.model.LocalCountry
 
@@ -11,6 +13,7 @@ import com.example.geogame.core.data.cache.model.LocalCountry
     entities = [LocalCountry::class],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class GeoGameDatabase : RoomDatabase() {
     abstract fun countryDao(): CountriesDao
 
