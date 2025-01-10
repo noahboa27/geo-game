@@ -23,6 +23,7 @@ class MainMenuViewModel(
 
     init {
         viewModelScope.launch {
+            // artificial loading delay
             delay(3000)
             _mainMenuState.update {
                 it.copy(isLoading = false)
