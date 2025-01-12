@@ -4,11 +4,6 @@ import com.example.geogame.core.domain.model.FlagGameCountry
 
 sealed class FlagGameIntent {
     data class AnswerSelected(val flagGameCountry: FlagGameCountry) : FlagGameIntent()
-    object QuitClicked : FlagGameIntent()
-    object ShowResults : FlagGameIntent()
-
-    // probably don't need these
-//    object NextQuestion : FlagGameIntent()
-//    object AnswerCorrect : FlagGameIntent()
-//    object AnswerIncorrect : FlagGameIntent()
+    data object QuitClicked : FlagGameIntent()
+    data object ShowResults : FlagGameIntent()
 }

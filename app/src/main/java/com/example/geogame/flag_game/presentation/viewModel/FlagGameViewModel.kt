@@ -30,15 +30,18 @@ class FlagGameViewModel(
 
     private fun processAnswer(userAnswer: FlagGameCountry) {
         // decide if the answer is correct or not
-        if (userAnswer == _flagGameState.value.currentQuestion.answer) {
+        if (userAnswer == _flagGameState.value.currentQuestionSet.answer) {
             _flagGameState.update {
                 it.copy(score = it.score + 1)
             }
         }
         // give feedback?
+
+        // need to check if we reached the end before incrementing
+
         // move to the next question
         _flagGameState.update {
-            it.copy(currentQuestion = it.questions[it.currentQuestion.index + 1])
+            it.copy(currentQuestionSet = it.questionSets[it.currentQuestionSet.index + 1])
         }
     }
 
@@ -50,10 +53,6 @@ class FlagGameViewModel(
 
     private fun showScore() {
         // show the final score
-    }
-
-    private fun quitGame() {
-        // back to main menu
     }
 
     fun getCountries() {
@@ -87,8 +86,8 @@ class FlagGameViewModel(
 
         _flagGameState.update {
             it.copy(
-                questions = questions,
-                currentQuestion = questions.first()
+                questionSets = questions,
+                currentQuestionSet = questions.first()
             )
         }
     }

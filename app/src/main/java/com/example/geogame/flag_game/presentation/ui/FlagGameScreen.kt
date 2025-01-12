@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.geogame.R
 import com.example.geogame.core.domain.model.FlagGameCountry
 import com.example.geogame.core.domain.model.Name
@@ -31,12 +32,13 @@ import com.example.geogame.flag_game.presentation.viewModel.FlagGameViewModel
 
 @Composable
 fun FlagGameScreen(
+    navController: NavController,
     viewModel: FlagGameViewModel = viewModel()
 ) {
     val state = viewModel.flagGameState.collectAsStateWithLifecycle()
     val isLoading = state.value.isLoading
     val currentQuestion by rememberSaveable {
-        mutableStateOf(state.value.currentQuestion)
+        mutableStateOf(state.value.currentQuestionSet)
     }
 
     FlagGameContent(isLoading, currentQuestion) {
@@ -74,7 +76,7 @@ fun FlagGameContent(
         }
 
         Image(
-            //FIXME
+            //FIXME don't use fixed drawable
             painter = painterResource(id = R.drawable.united_states_flag),
             contentDescription = "US Flag",
             modifier = Modifier

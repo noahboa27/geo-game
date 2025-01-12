@@ -2,7 +2,6 @@ package com.example.geogame.main_menu.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.geogame.core.navigation.GeoGameNavActions
 import com.example.geogame.main_menu.domain.useCase.GetRemoteCountriesUseCase
 import com.example.geogame.main_menu.presentation.intent.MainMenuIntent
 import com.example.geogame.main_menu.presentation.state.MainMenuState
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainMenuViewModel(
-    private val navActions: GeoGameNavActions,
     private val getRemoteCountriesUseCase: GetRemoteCountriesUseCase
 ): ViewModel() {
 
@@ -34,7 +32,9 @@ class MainMenuViewModel(
     fun processIntent(intent: MainMenuIntent) {
         when (intent) {
             MainMenuIntent.SettingsClicked -> Unit
-            MainMenuIntent.StartFlagGame -> navActions.navigateToMainMenu()
+            //FIXME move this to the composable
+            // MainMenuIntent.StartFlagGame -> navActions.navigateToMainMenu()
+            MainMenuIntent.StartFlagGame -> TODO()
         }
     }
 
