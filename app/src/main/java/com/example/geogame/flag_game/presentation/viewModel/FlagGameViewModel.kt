@@ -1,11 +1,12 @@
 package com.example.geogame.flag_game.presentation.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil3.ImageLoader
 import com.example.geogame.core.domain.model.FlagGameCountry
 import com.example.geogame.flag_game.domain.useCase.GetRandomCountriesUseCase
 import com.example.geogame.flag_game.domain.data.QuestionSet
-import com.example.geogame.flag_game.presentation.intent.FlagGameIntent
 import com.example.geogame.flag_game.presentation.state.FlagGameState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,21 +15,14 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class FlagGameViewModel(
-    private val getRandomCountries: GetRandomCountriesUseCase
+    private val getRandomCountries: GetRandomCountriesUseCase,
+    private val imageLoader: ImageLoader
 ) : ViewModel() {
 
     private val _flagGameState = MutableStateFlow(FlagGameState())
     val flagGameState = _flagGameState.asStateFlow()
 
-    fun processIntent(intent: FlagGameIntent) {
-        when (intent) {
-            is FlagGameIntent.AnswerSelected -> processAnswer(intent.flagGameCountry)
-            is FlagGameIntent.QuitClicked -> quitClicked()
-            is FlagGameIntent.ShowResults -> showScore()
-        }
-    }
-
-    private fun processAnswer(userAnswer: FlagGameCountry) {
+    fun processAnswer(userAnswer: FlagGameCountry) {
         // decide if the answer is correct or not
         if (userAnswer == _flagGameState.value.currentQuestionSet.answer) {
             _flagGameState.update {
@@ -45,16 +39,6 @@ class FlagGameViewModel(
         }
     }
 
-    private fun quitClicked() {
-        _flagGameState.update {
-            it.copy(isQuiting = true)
-        }
-    }
-
-    private fun showScore() {
-        // show the final score
-    }
-
     fun getCountries() {
         viewModelScope.launch {
             val countries = getRandomCountries(40)
@@ -62,7 +46,8 @@ class FlagGameViewModel(
                 .onSuccess {
                     setAnswers(it)
                 }
-                .onFailure {
+                .onFailure { e ->
+                    Log.e(this.javaClass.name, e.message ?: "Error fetching countries from Room")
                     // most likely this will just be an error dialog or similar
                     _flagGameState.update {
                         it.copy(errorMessage = "Something went wrong. Please try again.")

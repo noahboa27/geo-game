@@ -13,23 +13,19 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.example.geogame.main_menu.presentation.intent.MainMenuIntent
-import com.example.geogame.main_menu.presentation.viewModel.MainMenuViewModel
-import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun MainMenuScreen() {
-    val viewModel: MainMenuViewModel = getViewModel()
-    // val state = viewModel.mainMenuState.collectAsStateWithLifecycle()
-
+fun MainMenuScreen(
+    onFlagGameClicked: () -> Unit
+) {
     MainMenuContent {
-        viewModel.processIntent(it)
+        onFlagGameClicked()
     }
 }
 
 @Composable
 fun MainMenuContent(
-    onIntent: (MainMenuIntent) -> Unit
+    onFlagGameClicked: () -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Spacer(modifier = Modifier.fillMaxHeight(0.2f))
@@ -50,7 +46,7 @@ fun MainMenuContent(
             modifier = Modifier
                 .align(CenterHorizontally)
                 .fillMaxWidth(0.6f),
-            onClick = { onIntent(MainMenuIntent.StartFlagGame) }
+            onClick = { onFlagGameClicked() }
         ) {
             Text(
                 text = "Flag game",

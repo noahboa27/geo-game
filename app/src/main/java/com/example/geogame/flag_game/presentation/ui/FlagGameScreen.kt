@@ -22,17 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.geogame.R
 import com.example.geogame.core.domain.model.FlagGameCountry
 import com.example.geogame.core.domain.model.Name
 import com.example.geogame.flag_game.domain.data.QuestionSet
-import com.example.geogame.flag_game.presentation.intent.FlagGameIntent
 import com.example.geogame.flag_game.presentation.viewModel.FlagGameViewModel
 
 @Composable
 fun FlagGameScreen(
-    navController: NavController,
+    onQuitClicked: () -> Unit,
     viewModel: FlagGameViewModel = viewModel()
 ) {
     val state = viewModel.flagGameState.collectAsStateWithLifecycle()
@@ -41,16 +39,20 @@ fun FlagGameScreen(
         mutableStateOf(state.value.currentQuestionSet)
     }
 
-    FlagGameContent(isLoading, currentQuestion) {
-        viewModel.processIntent(it)
-    }
+    FlagGameContent(
+        isLoading,
+        currentQuestion,
+        onQuitClicked = onQuitClicked,
+        onAnswerClicked = { viewModel.processAnswer(it) }
+    )
 }
 
 @Composable
 fun FlagGameContent(
     isLoading: Boolean,
     questionSet: QuestionSet,
-    onIntent: (FlagGameIntent) -> Unit
+    onQuitClicked: () -> Unit,
+    onAnswerClicked: (FlagGameCountry) -> Unit
 ) {
 
     ConstraintLayout(
@@ -70,7 +72,7 @@ fun FlagGameContent(
                     end.linkTo(parent.end)
                 }
                 .padding(10.dp),
-            onClick = { onIntent(FlagGameIntent.QuitClicked) }
+            onClick = { onQuitClicked() }
         ) {
             Text(text = "Quit")
         }
@@ -78,7 +80,7 @@ fun FlagGameContent(
         Image(
             //FIXME don't use fixed drawable
             painter = painterResource(id = R.drawable.united_states_flag),
-            contentDescription = "US Flag",
+            contentDescription = "Country Flag",
             modifier = Modifier
                 .constrainAs(flagImage) {
                     top.linkTo(flagImageGuideline)
@@ -105,11 +107,7 @@ fun FlagGameContent(
                     .align(Alignment.TopStart)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onIntent(
-                        FlagGameIntent.AnswerSelected(
-                            questionSet.options[0]
-                        )
-                    )
+                    onAnswerClicked(questionSet.options[0])
                 }
             ) {
                 Text(text = questionSet.options[0].name.common)
@@ -122,11 +120,7 @@ fun FlagGameContent(
                     .align(Alignment.TopEnd)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onIntent(
-                        FlagGameIntent.AnswerSelected(
-                            questionSet.options[1]
-                        )
-                    )
+                    onAnswerClicked(questionSet.options[1])
                 }
             ) {
                 Text(text = questionSet.options[1].name.common)
@@ -139,11 +133,7 @@ fun FlagGameContent(
                     .align(Alignment.BottomStart)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onIntent(
-                        FlagGameIntent.AnswerSelected(
-                            questionSet.options[2]
-                        )
-                    )
+                    onAnswerClicked(questionSet.options[2])
                 }
             ) {
                 Text(text = questionSet.options[2].name.common)
@@ -156,11 +146,7 @@ fun FlagGameContent(
                     .align(Alignment.BottomEnd)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onIntent(
-                        FlagGameIntent.AnswerSelected(
-                            questionSet.options[3]
-                        )
-                    )
+                    onAnswerClicked(questionSet.options[3])
                 }
             ) {
                 Text(text = questionSet.options[3].name.common)
@@ -202,6 +188,7 @@ fun PreviewFlagGameContent() {
                 FlagGameCountry("", Name(common = "Mexico"))
             )
         ),
-        onIntent = {}
+        onQuitClicked = {},
+        onAnswerClicked = {}
     )
 }
