@@ -71,6 +71,10 @@ dependencies {
     implementation libs.okhttp
     implementation libs.logging.interceptor
 
+    // Coil
+    implementation libs.coil.compose
+    implementation libs.coil.network
+
     // define any required OkHttp artifacts without version
     implementation libs.okhttp3.okhttp
     implementation libs.okhttp3.logging.interceptor
