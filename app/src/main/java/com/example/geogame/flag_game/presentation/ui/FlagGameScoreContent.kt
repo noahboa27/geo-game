@@ -15,7 +15,21 @@ import androidx.compose.ui.unit.sp
 import com.example.geogame.flag_game.presentation.state.FlagGameState
 
 @Composable
-fun FlagGameScoreContent(state: FlagGameState) {
+fun FlagGameScoreScreen(
+    onMainMenuClicked: () -> Unit,
+    flagGameScore: Int
+) {
+    FlagGameScoreContent(
+        finalScore = flagGameScore,
+        onMainMenuClicked
+    )
+}
+
+@Composable
+fun FlagGameScoreContent(
+    finalScore: Int,
+    onMainMenuClicked: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxSize()) {
         Spacer(modifier = Modifier.fillMaxHeight(0.15f))
         Text(
@@ -25,7 +39,7 @@ fun FlagGameScoreContent(state: FlagGameState) {
         )
         Spacer(modifier = Modifier.fillMaxHeight(0.1f))
         Text(
-            text = "${state.score}/10",
+            text = "${finalScore}/10",
             fontSize = 50.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
@@ -33,7 +47,7 @@ fun FlagGameScoreContent(state: FlagGameState) {
         Button(
             shape = RoundedCornerShape(percent = 50),
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            onClick = { /*TODO*/ }
+            onClick = { onMainMenuClicked() }
         ) {
             Text(
                 text = "Main Menu"
@@ -46,8 +60,7 @@ fun FlagGameScoreContent(state: FlagGameState) {
 @Composable
 fun PreviewFlagGameScoreContent() {
     FlagGameScoreContent(
-        FlagGameState(
-            score = 7
-        )
+        finalScore = 7,
+        onMainMenuClicked = {}
     )
 }

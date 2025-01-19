@@ -1,6 +1,7 @@
 package com.example.geogame
 
 import android.app.Application
+import coil3.request.ImageRequest
 import com.example.geogame.core.coreKoinModule
 import com.example.geogame.core.data.cache.database.GeoGameDatabase
 import com.example.geogame.core.data.di.dataModule
@@ -10,6 +11,7 @@ import com.example.geogame.main_menu.di.mainMenuModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import kotlin.coroutines.coroutineContext
 
 class GeoGame : Application() {
     override fun onCreate() {

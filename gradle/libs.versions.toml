@@ -3,8 +3,7 @@ kotlin = "2.1.0"
 android = "8.3.2"
 devtools_ksp_version = "2.1.0-1.0.29"
 room_version = "2.6.1"
-koin_version = "3.5.6"
-koin_compose_version = "3.4.2"
+koin_bom = "4.0.1"
 retrofit_version = "2.9.0"
 moshi_version = "1.15.2"
 okhttp_bom_version = "4.10.0"
@@ -27,10 +26,11 @@ coil-version = "3.0.4"
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room_version" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room_version" }
 
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin_version" }
-koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin_compose_version" }
-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin_version" }
-koin-test-juint5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin_version" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin_bom" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
+koin-test = { module = "io.insert-koin:koin-test" }
+koin-test-juint5 = { module = "io.insert-koin:koin-test-junit5" }
 
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit_version" }
 retrofit-moshi-converter = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit_version" }

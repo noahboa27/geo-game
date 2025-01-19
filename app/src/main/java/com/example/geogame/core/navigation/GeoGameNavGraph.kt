@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.geogame.flag_game.presentation.ui.FlagGameScoreScreen
 import com.example.geogame.flag_game.presentation.ui.FlagGameScreen
 import com.example.geogame.main_menu.presentation.ui.MainMenuScreen
 import kotlinx.serialization.Serializable
@@ -13,6 +14,8 @@ import kotlinx.serialization.Serializable
 object MainMenu
 @Serializable
 object FlagGame
+@Serializable
+object FlagGameScore
 
 @Composable
 fun GeoGameNavGraph(
@@ -30,6 +33,13 @@ fun GeoGameNavGraph(
         composable<FlagGame> {
             FlagGameScreen(
                 onQuitClicked = { navController.navigate(route = MainMenu) }
+            )
+        }
+        composable<FlagGameScore> { backStackEntry ->
+            val finalScore: Int = backStackEntry.arguments
+            FlagGameScoreScreen(
+                flagGameScore = finalScore,
+                onMainMenuClicked = { navController.navigate(route = MainMenu) }
             )
         }
     }

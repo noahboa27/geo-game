@@ -13,10 +13,13 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.example.geogame.main_menu.presentation.viewModel.MainMenuViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MainMenuScreen(
-    onFlagGameClicked: () -> Unit
+    onFlagGameClicked: () -> Unit,
+    viewModel: MainMenuViewModel = koinViewModel()
 ) {
     MainMenuContent {
         onFlagGameClicked()

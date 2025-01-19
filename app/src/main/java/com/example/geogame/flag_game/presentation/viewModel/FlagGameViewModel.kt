@@ -3,7 +3,6 @@ package com.example.geogame.flag_game.presentation.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import coil3.ImageLoader
 import com.example.geogame.core.domain.model.FlagGameCountry
 import com.example.geogame.flag_game.domain.useCase.GetRandomCountriesUseCase
 import com.example.geogame.flag_game.domain.data.QuestionSet
@@ -15,8 +14,7 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class FlagGameViewModel(
-    private val getRandomCountries: GetRandomCountriesUseCase,
-    private val imageLoader: ImageLoader
+    private val getRandomCountries: GetRandomCountriesUseCase
 ) : ViewModel() {
 
     private val _flagGameState = MutableStateFlow(FlagGameState())
@@ -31,11 +29,25 @@ class FlagGameViewModel(
         }
         // give feedback?
 
-        // need to check if we reached the end before incrementing
-
-        // move to the next question
         _flagGameState.update {
-            it.copy(currentQuestionSet = it.questionSets[it.currentQuestionSet.index + 1])
+            it.copy(questionsCompleted = it.questionsCompleted + 1)
+            it.copy(progression = (it.questionsCompleted / it.totalQuestionSets).toFloat())
+        }
+
+        // need to check if we reached the end before incrementing
+        // move to the next question
+        if (flagGameState.value.questionsCompleted == flagGameState.value.totalQuestionSets) {
+            // quit game and show score
+        } else {
+            _flagGameState.update {
+                it.copy(currentQuestionSet = it.questionSets[it.currentQuestionSet.index + 1])
+            }
+        }
+    }
+
+    fun doneLoading() {
+        _flagGameState.update {
+            it.copy(isLoading = false)
         }
     }
 
@@ -72,7 +84,8 @@ class FlagGameViewModel(
         _flagGameState.update {
             it.copy(
                 questionSets = questions,
-                currentQuestionSet = questions.first()
+                currentQuestionSet = questions.first(),
+                totalQuestionSets = questions.size
             )
         }
     }

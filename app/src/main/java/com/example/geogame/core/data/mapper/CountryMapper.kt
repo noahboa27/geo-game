@@ -44,7 +44,7 @@ object CountryMapper {
     )
 
     fun toFlagGameCountry(localCountry: LocalCountry) = FlagGameCountry(
-        flag = localCountry.flag,
+        flagUrl = localCountry.flag,
         name = localCountry.name
     )
 
