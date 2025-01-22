@@ -1,27 +1,28 @@
 package com.example.geogame.core.data.cache.converter
 
+import android.content.ComponentCallbacks
+import android.content.res.Configuration
 import androidx.room.TypeConverter
-import com.example.geogame.core.domain.model.CapitalInfo
 import com.example.geogame.core.domain.model.*
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import org.koin.android.ext.android.inject
 
-val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
-val capitalInfoAdapter = moshi.adapter(CapitalInfo::class.java)!!
-val carAdapter = moshi.adapter(Car::class.java)!!
-val coatOfArmsAdapter = moshi.adapter(CoatOfArms::class.java)!!
-val currenciesAdapter = moshi.adapter(Currencies::class.java)!!
-val demonymsAdapter = moshi.adapter(Demonyms::class.java)!!
-val flagsAdapter = moshi.adapter(Flags::class.java)!!
-val giniAdapter = moshi.adapter(Gini::class.java)!!
-val iddAdapter = moshi.adapter(Idd::class.java)!!
-val languagesAdapter = moshi.adapter(Languages::class.java)!!
-val mapsAdapter = moshi.adapter(Maps::class.java)!!
-val nameAdapter = moshi.adapter(Name::class.java)!!
-val postalCodeAdapter = moshi.adapter(PostalCode::class.java)!!
-val translationsAdapter = moshi.adapter(Translations::class.java)!!
+class Converters: ComponentCallbacks {
+    val moshi: Moshi by inject()
+    private val capitalInfoAdapter = moshi.adapter(CapitalInfo::class.java)!!
+    private val carAdapter = moshi.adapter(Car::class.java)!!
+    private val coatOfArmsAdapter = moshi.adapter(CoatOfArms::class.java)!!
+    private val currenciesAdapter = moshi.adapter(Currencies::class.java)!!
+    private val demonymsAdapter = moshi.adapter(Demonyms::class.java)!!
+    private val flagsAdapter = moshi.adapter(Flags::class.java)!!
+    private val giniAdapter = moshi.adapter(Gini::class.java)!!
+    private val iddAdapter = moshi.adapter(Idd::class.java)!!
+    private val languagesAdapter = moshi.adapter(Languages::class.java)!!
+    private val mapsAdapter = moshi.adapter(Maps::class.java)!!
+    private val nameAdapter = moshi.adapter(Name::class.java)!!
+    private val postalCodeAdapter = moshi.adapter(PostalCode::class.java)!!
+    private val translationsAdapter = moshi.adapter(Translations::class.java)!!
 
-class Converters {
     @TypeConverter
     fun fromStringList(list: List<String>): String =
         list.toString()
@@ -148,4 +149,9 @@ class Converters {
     @TypeConverter
     fun toTranslations(s: String): Translations =
         translationsAdapter.fromJson(s) ?: Translations()
+
+    override fun onConfigurationChanged(p0: Configuration) {}
+
+    @Deprecated("Deprecated in Java")
+    override fun onLowMemory() {}
 }

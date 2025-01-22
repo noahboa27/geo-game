@@ -12,5 +12,6 @@ data class FlagGameState(
     val progression: Float = 0.0.toFloat(),
     val score: Int = 0,
     val isQuiting: Boolean = false,
+    val isGameOver: Boolean = false,
     val errorMessage: String = ""
 )

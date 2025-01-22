@@ -34,11 +34,15 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun FlagGameScreen(
     onQuitClicked: () -> Unit,
+    onGameOver: (finalScore: Int) -> Unit,
     viewModel: FlagGameViewModel = koinViewModel()
 ) {
     val state = viewModel.flagGameState.collectAsStateWithLifecycle()
     val currentQuestionSet by rememberSaveable {
         mutableStateOf(state.value.currentQuestionSet)
+    }
+    if (state.value.isGameOver) {
+        onGameOver(state.value.score)
     }
 
     FlagGameContent(

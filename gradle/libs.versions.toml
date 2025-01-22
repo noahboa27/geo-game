@@ -23,8 +23,9 @@ espresso_core_version = "3.6.1"
 coil-version = "3.0.4"
 
 [libraries]
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room_version" }
+androidx-room-ksp = { module = "androidx.room:room-compiler", version.ref = "room_version" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room_version" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room_version" }
 
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin_bom" }
 koin-android = { module = "io.insert-koin:koin-android" }

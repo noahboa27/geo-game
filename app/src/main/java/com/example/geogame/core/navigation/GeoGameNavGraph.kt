@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.geogame.flag_game.presentation.ui.FlagGameScoreScreen
 import com.example.geogame.flag_game.presentation.ui.FlagGameScreen
 import com.example.geogame.main_menu.presentation.ui.MainMenuScreen
@@ -15,7 +16,7 @@ object MainMenu
 @Serializable
 object FlagGame
 @Serializable
-object FlagGameScore
+data class FlagGameScore(val finalScore: Int)
 
 @Composable
 fun GeoGameNavGraph(
@@ -27,19 +28,24 @@ fun GeoGameNavGraph(
     ) {
         composable<MainMenu> {
             MainMenuScreen(
-                onFlagGameClicked = { navController.navigate(route = FlagGame) }
+                onFlagGameClicked = { navController.navigate(FlagGame) }
             )
         }
+
         composable<FlagGame> {
             FlagGameScreen(
-                onQuitClicked = { navController.navigate(route = MainMenu) }
+                onQuitClicked = { navController.navigate(MainMenu) },
+                onGameOver = { finalScore ->
+                    navController.navigate(FlagGameScore(finalScore))
+                }
             )
         }
-        composable<FlagGameScore> { backStackEntry ->
-            val finalScore: Int = backStackEntry.arguments
+
+        composable<FlagGameScore> {
+            val args = it.toRoute<FlagGameScore>()
             FlagGameScoreScreen(
-                flagGameScore = finalScore,
-                onMainMenuClicked = { navController.navigate(route = MainMenu) }
+                flagGameScore = args.finalScore,
+                onMainMenuClicked = { navController.navigate(MainMenu) }
             )
         }
     }

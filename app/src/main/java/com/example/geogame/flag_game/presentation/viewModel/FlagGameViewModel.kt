@@ -20,6 +20,10 @@ class FlagGameViewModel(
     private val _flagGameState = MutableStateFlow(FlagGameState())
     val flagGameState = _flagGameState.asStateFlow()
 
+    init {
+        getCountries()
+    }
+
     fun processAnswer(userAnswer: FlagGameCountry) {
         // decide if the answer is correct or not
         if (userAnswer == _flagGameState.value.currentQuestionSet.answer) {
@@ -27,20 +31,24 @@ class FlagGameViewModel(
                 it.copy(score = it.score + 1)
             }
         }
-        // give feedback?
 
+        //TODO
+        // give some sort of user feedback
+
+        // increment progress
         _flagGameState.update {
             it.copy(questionsCompleted = it.questionsCompleted + 1)
             it.copy(progression = (it.questionsCompleted / it.totalQuestionSets).toFloat())
         }
 
         // need to check if we reached the end before incrementing
-        // move to the next question
         if (flagGameState.value.questionsCompleted == flagGameState.value.totalQuestionSets) {
-            // quit game and show score
+            _flagGameState.update {
+                it.copy(isGameOver = true)
+            }
         } else {
             _flagGameState.update {
-                it.copy(currentQuestionSet = it.questionSets[it.currentQuestionSet.index + 1])
+                it.copy(currentQuestionSet = it.questionSets[it.questionsCompleted])
             }
         }
     }
@@ -51,7 +59,7 @@ class FlagGameViewModel(
         }
     }
 
-    fun getCountries() {
+    private fun getCountries() {
         viewModelScope.launch {
             val countries = getRandomCountries(40)
             countries
@@ -71,10 +79,9 @@ class FlagGameViewModel(
     private fun setAnswers(countries: List<FlagGameCountry>) {
         val chunkedCountries = countries.chunked(4)
         val questions: MutableList<QuestionSet> = mutableListOf()
-        chunkedCountries.forEachIndexed { index, flagGameCountries ->
+        chunkedCountries.forEach { flagGameCountries ->
             val randomNum = Random.nextInt(0, 4)
             val questionSet = QuestionSet(
-                index = index,
                 options = flagGameCountries,
                 answer = flagGameCountries[randomNum]
             )
