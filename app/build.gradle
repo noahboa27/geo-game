@@ -76,6 +76,7 @@ dependencies {
     // Coil
     implementation libs.coil.compose
     implementation libs.coil.network
+    implementation libs.coil.svg
 
     // define any required OkHttp artifacts without version
     implementation libs.okhttp3.okhttp
