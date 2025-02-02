@@ -12,13 +12,10 @@ import org.koin.dsl.module
 
 val dataModule = module {
     single { GeoGameDatabase.getInstance(androidContext()) }
-    single {
-        val database = get<GeoGameDatabase>()
-        database.countryDao()
-        database.countryFetchDateDao()
-    }
+    single { get<GeoGameDatabase>().countryDao() }
+    single { get<GeoGameDatabase>().countryFetchDateDao() }
 
     factory<CountryFetchDateRepository> { CountryFetchDateRepositoryImpl(get(), get()) }
-    factory<LocalCountryRepository> { LocalCountryRepositoryImpl(get(), get()) }
+    factory<LocalCountryRepository> { LocalCountryRepositoryImpl(get()) }
     factory<RemoteCountryRepository> { RemoteCountryRepositoryImpl(get(), get()) }
 }
