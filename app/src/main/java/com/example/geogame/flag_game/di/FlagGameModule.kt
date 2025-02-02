@@ -14,10 +14,10 @@ val flagGameModule = module {
     factoryOf(::GetRandomCountriesUseCase)
     viewModelOf(::FlagGameViewModel)
 
-    single {
-        SingletonImageLoader.setSafe {
-            ImageLoader.Builder(androidContext())
-                .build()
-        }
-    }
+//    single {
+//        SingletonImageLoader.setSafe {
+//            ImageLoader.Builder(androidContext())
+//                .build()
+//        }
+//    }
 }
