@@ -1,6 +1,5 @@
 package com.example.geogame.flag_game.presentation.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,9 +10,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,9 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import com.example.geogame.R
-import com.example.geogame.core.domain.model.FlagGameCountry
-import com.example.geogame.core.domain.model.Name
-import com.example.geogame.flag_game.domain.data.QuestionSet
+import com.example.geogame.flag_game.domain.data.FlagGameCountry
 import com.example.geogame.flag_game.presentation.viewModel.FlagGameViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -38,41 +32,45 @@ fun FlagGameScreen(
     viewModel: FlagGameViewModel = koinViewModel()
 ) {
     val state = viewModel.flagGameState.collectAsStateWithLifecycle()
-    val currentQuestionSet by rememberSaveable {
-        mutableStateOf(state.value.currentQuestionSet)
-    }
-    if (state.value.isGameOver) {
-        onGameOver(state.value.score)
-    }
+    if (state.value.isLoading.not()) {
+        if (state.value.isGameOver) {
+            onGameOver(state.value.score)
+        }
 
-    FlagGameContent(
-        isLoading = state.value.isLoading,
-        progression = state.value.progression,
-        questionsCompleted = state.value.questionsCompleted,
-        totalQuestionSets = state.value.totalQuestionSets,
-        questionSet = currentQuestionSet,
-        onDoneLoading = { viewModel.doneLoading() },
-        onQuitClicked = onQuitClicked,
-        onAnswerClicked = { viewModel.processAnswer(it) }
-    )
+        val currentQuestion = state.value.currentQuestion
+        val answer = currentQuestion[state.value.answerIndex]
+
+        FlagGameContent(
+            isLoading = state.value.isLoading,
+            progression = state.value.progression[state.value.currentQuestionNumber - 1],
+            currentQuestionNumber = state.value.currentQuestionNumber,
+            totalQuestionSets = state.value.numberOfQuestions,
+            currentQuestion = currentQuestion,
+            flagUrl = answer.flagUrl,
+            // onDoneLoading = { viewModel.doneLoading() },
+            onQuitClicked = onQuitClicked,
+            onAnswerClicked = { viewModel.processAnswer(it) }
+        )
+    }
 }
 
 @Composable
 fun FlagGameContent(
     isLoading: Boolean,
     progression: Float,
-    questionsCompleted: Int,
+    currentQuestionNumber: Int,
     totalQuestionSets: Int,
-    questionSet: QuestionSet,
-    onDoneLoading: () -> Unit,
+    currentQuestion: List<FlagGameCountry>,
+    flagUrl: String,
+    // onDoneLoading: () -> Unit,
     onQuitClicked: () -> Unit,
-    onAnswerClicked: (FlagGameCountry) -> Unit
+    onAnswerClicked: (Boolean) -> Unit
 ) {
 
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        // remove constraints and use spacers with percentages
+        //FIXME: remove constraints and use spacers with percentages
         val (quitButton, flagImage, answerOptionBox, progressBar, progressText) = createRefs()
         val flagImageGuideline = createGuidelineFromTop(0.2f)
         val answerBoxGuideline = createGuidelineFromTop(0.65f)
@@ -93,11 +91,11 @@ fun FlagGameContent(
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(questionSet.answer.flagUrl)
+                .data(flagUrl)
                 .build(),
             contentDescription = "Country Flag",
             placeholder = painterResource(R.drawable.loading_stub),
-            onSuccess = { onDoneLoading() },
+            onSuccess = {  },
             modifier = Modifier
                 .constrainAs(flagImage) {
                     top.linkTo(flagImageGuideline)
@@ -135,17 +133,10 @@ fun FlagGameContent(
                     .align(Alignment.TopStart)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onAnswerClicked(questionSet.options[0])
+                    onAnswerClicked(currentQuestion[0].isAnswer)
                 }
             ) {
-                if (isLoading) {
-                    Image(
-                        painter = painterResource(R.drawable.loading_stub),
-                        contentDescription = null
-                    )
-                } else {
-                    Text(text = questionSet.options[0].name.common)
-                }
+                Text(text = currentQuestion[0].name)
             }
 
             // top right
@@ -155,17 +146,10 @@ fun FlagGameContent(
                     .align(Alignment.TopEnd)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onAnswerClicked(questionSet.options[1])
+                    onAnswerClicked(currentQuestion[1].isAnswer)
                 }
             ) {
-                if (isLoading) {
-                    Image(
-                        painter = painterResource(R.drawable.loading_stub),
-                        contentDescription = null
-                    )
-                } else {
-                    Text(text = questionSet.options[1].name.common)
-                }
+                Text(text = currentQuestion[1].name)
             }
 
             // bottom left
@@ -175,17 +159,10 @@ fun FlagGameContent(
                     .align(Alignment.BottomStart)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onAnswerClicked(questionSet.options[2])
+                    onAnswerClicked(currentQuestion[2].isAnswer)
                 }
             ) {
-                if (isLoading) {
-                    Image(
-                        painter = painterResource(R.drawable.loading_stub),
-                        contentDescription = null
-                    )
-                } else {
-                    Text(text = questionSet.options[2].name.common)
-                }
+                Text(text = currentQuestion[2].name)
             }
 
             // bottom right
@@ -195,17 +172,10 @@ fun FlagGameContent(
                     .align(Alignment.BottomEnd)
                     .fillMaxWidth(0.45f),
                 onClick = {
-                    onAnswerClicked(questionSet.options[3])
+                    onAnswerClicked(currentQuestion[3].isAnswer)
                 }
             ) {
-                if (isLoading) {
-                    Image(
-                        painter = painterResource(R.drawable.loading_stub),
-                        contentDescription = null
-                    )
-                } else {
-                    Text(text = questionSet.options[3].name.common)
-                }
+                Text(text = currentQuestion[3].name)
             }
         }
 
@@ -220,7 +190,7 @@ fun FlagGameContent(
         )
 
         Text(
-            text = "$questionsCompleted / $totalQuestionSets",
+            text = "$currentQuestionNumber / $totalQuestionSets",
             modifier = Modifier
                 .constrainAs(progressText) {
                     top.linkTo(progressBar.bottom, margin = 10.dp)
@@ -236,19 +206,18 @@ fun FlagGameContent(
 fun PreviewFlagGameContent() {
     FlagGameContent(
         isLoading = false,
-        questionSet = QuestionSet(
-            options = listOf(
-                FlagGameCountry("", Name(common = "USA")),
-                FlagGameCountry("", Name(common = "Canada")),
-                FlagGameCountry("", Name(common = "France")),
-                FlagGameCountry("", Name(common = "Mexico"))
-            )
-        ),
         onQuitClicked = {},
         onAnswerClicked = {},
-        onDoneLoading = {},
-        questionsCompleted = 4,
+        // onDoneLoading = {},
+        currentQuestionNumber = 4,
         progression = 0.4.toFloat(),
-        totalQuestionSets = 10
+        totalQuestionSets = 10,
+        currentQuestion = listOf(
+            FlagGameCountry("", "USA", false),
+            FlagGameCountry("", "Canada", false),
+            FlagGameCountry("", "France", false),
+            FlagGameCountry("", "Mexico", false)
+        ),
+        flagUrl = ""
     )
 }

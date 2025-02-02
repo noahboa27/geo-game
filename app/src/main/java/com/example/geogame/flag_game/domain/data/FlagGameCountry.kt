@@ -1,6 +1,7 @@
-package com.example.geogame.core.domain.model
+package com.example.geogame.flag_game.domain.data
 
 data class FlagGameCountry(
     val flagUrl: String,   // url used to get the flag image using Coil
-    val name: Name
+    val name: String,
+    var isAnswer: Boolean
 )

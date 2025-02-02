@@ -3,9 +3,8 @@ package com.example.geogame.flag_game.presentation.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.geogame.core.domain.model.FlagGameCountry
+import com.example.geogame.flag_game.domain.data.FlagGameCountry
 import com.example.geogame.flag_game.domain.useCase.GetRandomCountriesUseCase
-import com.example.geogame.flag_game.domain.data.QuestionSet
 import com.example.geogame.flag_game.presentation.state.FlagGameState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,31 +23,34 @@ class FlagGameViewModel(
         getCountries()
     }
 
-    fun processAnswer(userAnswer: FlagGameCountry) {
-        // decide if the answer is correct or not
-        if (userAnswer == _flagGameState.value.currentQuestionSet.answer) {
+    fun processAnswer(isAnswer: Boolean) {
+        if (isAnswer) {
             _flagGameState.update {
                 it.copy(score = it.score + 1)
             }
         }
 
-        //TODO
-        // give some sort of user feedback
-
-        // increment progress
-        _flagGameState.update {
-            it.copy(questionsCompleted = it.questionsCompleted + 1)
-            it.copy(progression = (it.questionsCompleted / it.totalQuestionSets).toFloat())
-        }
-
-        // need to check if we reached the end before incrementing
-        if (flagGameState.value.questionsCompleted == flagGameState.value.totalQuestionSets) {
+        // check if we reached the end before incrementing
+        if (flagGameState.value.currentQuestionNumber + 1 > flagGameState.value.numberOfQuestions) {
             _flagGameState.update {
                 it.copy(isGameOver = true)
             }
         } else {
+            //TODO
+            // give some sort of user feedback
+
+            // increment progress
             _flagGameState.update {
-                it.copy(currentQuestionSet = it.questionSets[it.questionsCompleted])
+                it.copy(currentQuestionNumber = it.currentQuestionNumber + 1)
+            }
+
+            val answer = _flagGameState.value.currentQuestion.find { it.isAnswer }
+            val answerIndex = _flagGameState.value.currentQuestion.indexOf(answer)
+            _flagGameState.update {
+                it.copy(
+                    currentQuestion = it.questions[it.currentQuestionNumber - 1],
+                    answerIndex = answerIndex
+                )
             }
         }
     }
@@ -64,7 +66,7 @@ class FlagGameViewModel(
             val countries = getRandomCountries(40)
             countries
                 .onSuccess {
-                    setAnswers(it)
+                    setupFlagGame(it)
                 }
                 .onFailure { e ->
                     Log.e(this.javaClass.name, e.message ?: "Error fetching countries from Room")
@@ -76,24 +78,38 @@ class FlagGameViewModel(
         }
     }
 
-    private fun setAnswers(countries: List<FlagGameCountry>) {
+    private fun setupFlagGame(countries: List<FlagGameCountry>) {
         val chunkedCountries = countries.chunked(4)
-        val questions: MutableList<QuestionSet> = mutableListOf()
-        chunkedCountries.forEach { flagGameCountries ->
-            val randomNum = Random.nextInt(0, 4)
-            val questionSet = QuestionSet(
-                options = flagGameCountries,
-                answer = flagGameCountries[randomNum]
-            )
-            questions.add(questionSet)
+        val questions: MutableList<List<FlagGameCountry>> = mutableListOf()
+        var answerIndex = 0
+        chunkedCountries.forEachIndexed { index, flagGameCountrySet ->
+            answerIndex = Random.nextInt(0, 4)
+            flagGameCountrySet[answerIndex].isAnswer = true
+            questions.add(index, flagGameCountrySet)
         }
+        setProgressBarValues(questions.size)
 
         _flagGameState.update {
             it.copy(
-                questionSets = questions,
-                currentQuestionSet = questions.first(),
-                totalQuestionSets = questions.size
+                questions = questions,
+                currentQuestion = questions[0],
+                answerIndex = answerIndex,
+                numberOfQuestions = questions.size,
+                isLoading = false
             )
+        }
+    }
+
+    private fun setProgressBarValues(
+        numOfQuestions: Int
+    ) {
+        val values = FloatArray(10)
+        val denominator = numOfQuestions.toFloat()
+        for (i in 1..numOfQuestions) {
+            values[i - 1] = i / denominator
+        }
+        _flagGameState.update {
+            it.copy(progression = values)
         }
     }
 }
