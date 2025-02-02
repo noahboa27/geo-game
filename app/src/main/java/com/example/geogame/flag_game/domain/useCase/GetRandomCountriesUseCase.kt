@@ -1,7 +1,7 @@
 package com.example.geogame.flag_game.domain.useCase
 
 import com.example.geogame.core.data.mapper.CountryMapper
-import com.example.geogame.core.domain.model.FlagGameCountry
+import com.example.geogame.flag_game.domain.data.FlagGameCountry
 import com.example.geogame.core.domain.repo.LocalCountryRepository
 
 class GetRandomCountriesUseCase(

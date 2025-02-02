@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.geogame.core.coreKoinModule
 import com.example.geogame.core.data.cache.database.GeoGameDatabase
 import com.example.geogame.core.data.cache.model.CountryFetchDate
+import com.example.geogame.core.data.cache.model.LocalCountry
 import com.example.geogame.core.data.di.dataModule
 import com.example.geogame.core.data.mapper.CountryMapper
 import com.example.geogame.core.data.network.api.RestCountriesApi
@@ -40,7 +41,7 @@ class GeoGame : Application() {
         GeoGameDatabase.getInstance(applicationContext)
 
         // fetch for fresh data if need be
-        // new data will only come in once per month on app startup
+        // new data will only come in once per week on app startup
         CoroutineScope(Dispatchers.IO).launch {
             val countryFetchDateRepository: CountryFetchDateRepository by inject()
             val currentTime = Date().time
@@ -48,17 +49,21 @@ class GeoGame : Application() {
             val oneWeekFromLastFetch = lastFetch + WEEK_IN_MILLISECONDS
 
             if (lastFetch == ZERO) {
-                countryFetchDateRepository.insert(CountryFetchDate(lastFetchTime = lastFetch))
+                countryFetchDateRepository.insert(
+                    CountryFetchDate(lastFetchTime = currentTime)
+                )
             }
 
             if (currentTime > oneWeekFromLastFetch) {
                 val restCountriesApi: RestCountriesApi by inject()
                 val localCountryRepository: LocalCountryRepository by inject()
 
-                // i wonder how long this will take :D
-//                restCountriesApi.getAllCountries().forEach {
-//                    localCountryRepository.insertCountry(CountryMapper.toLocal(it))
-//                }
+                val allLocalCountries = mutableListOf<LocalCountry>()
+                val allApiCountries = restCountriesApi.getAllCountries()
+                allApiCountries.forEach {
+                    allLocalCountries.add(CountryMapper.toLocal(it))
+                }
+                localCountryRepository.insertAll(allLocalCountries.toList())
             }
         }
     }
