@@ -44,12 +44,11 @@ class FlagGameViewModel(
                 it.copy(currentQuestionNumber = it.currentQuestionNumber + 1)
             }
 
-            val answer = _flagGameState.value.currentQuestion.find { it.isAnswer }
-            val answerIndex = _flagGameState.value.currentQuestion.indexOf(answer)
-            _flagGameState.update {
-                it.copy(
-                    currentQuestion = it.questions[it.currentQuestionNumber - 1],
-                    answerIndex = answerIndex
+            val index = _flagGameState.value.currentQuestionNumber - 1
+            _flagGameState.update { state ->
+                state.copy(
+                    currentQuestion = state.questions[index],
+                    currentAnswer = state.questions[index].find { it.isAnswer }!!
                 )
             }
         }
@@ -81,19 +80,17 @@ class FlagGameViewModel(
     private fun setupFlagGame(countries: List<FlagGameCountry>) {
         val chunkedCountries = countries.chunked(4)
         val questions: MutableList<List<FlagGameCountry>> = mutableListOf()
-        var answerIndex = 0
         chunkedCountries.forEachIndexed { index, flagGameCountrySet ->
-            answerIndex = Random.nextInt(0, 4)
-            flagGameCountrySet[answerIndex].isAnswer = true
+            flagGameCountrySet[Random.nextInt(0, 4)].isAnswer = true
             questions.add(index, flagGameCountrySet)
         }
         setProgressBarValues(questions.size)
 
-        _flagGameState.update {
-            it.copy(
+        _flagGameState.update { state ->
+            state.copy(
                 questions = questions,
                 currentQuestion = questions[0],
-                answerIndex = answerIndex,
+                currentAnswer = questions[0].find { it.isAnswer }!!,
                 numberOfQuestions = questions.size,
                 isLoading = false
             )
